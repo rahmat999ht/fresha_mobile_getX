@@ -1,26 +1,26 @@
 // To parse this JSON data, do
 //
-//     final modelIdProduct = modelIdProductFromJson(jsonString);
+//     final modelProductById = modelProductByIdFromJson(jsonString);
 
 import 'dart:convert';
 
-ModelIdProduct modelIdProductFromJson(String str) =>
-    ModelIdProduct.fromJson(json.decode(str));
+ModelProductById modelProductByIdFromJson(String str) =>
+    ModelProductById.fromJson(json.decode(str));
 
-String modelIdProductToJson(ModelIdProduct data) => json.encode(data.toJson());
+String modelProductByIdToJson(ModelProductById data) => json.encode(data.toJson());
 
-class ModelIdProduct {
+class ModelProductById {
   int code;
   String status;
   Data data;
 
-  ModelIdProduct({
+  ModelProductById({
     required this.code,
     required this.status,
     required this.data,
   });
 
-  factory ModelIdProduct.fromJson(Map<String, dynamic> json) => ModelIdProduct(
+  factory ModelProductById.fromJson(Map<String, dynamic> json) => ModelProductById(
         code: json["code"],
         status: json["status"],
         data: Data.fromJson(json["data"]),

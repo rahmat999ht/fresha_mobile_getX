@@ -13,10 +13,11 @@ class DashboardBinding extends Bindings {
     Get.lazyPut(
       () => ProductProvider(),
     );
+    Get.lazyPut(
+      () => OrderProvider(),
+    );
     Get.put<ProductsController>(
-      ProductsController(
-        productProvider: Get.find(),
-      ),
+      ProductsController(productProvider: Get.find()),
     );
     Get.lazyPut<DashboardController>(
       () => DashboardController(),
@@ -24,11 +25,13 @@ class DashboardBinding extends Bindings {
     Get.lazyPut<HomeController>(
       () => HomeController(),
     );
-    Get.lazyPut<KategoriController>(
-      () => KategoriController(),
+    Get.put<KategoriController>(
+      KategoriController(
+        productProvider: Get.find(),
+      ),
     );
-    Get.lazyPut<PesananController>(
-      () => PesananController(),
+    Get.put<PesananController>(
+      PesananController(orderProvider: Get.find()),
     );
     Get.lazyPut<AkunController>(
       () => AkunController(),

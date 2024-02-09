@@ -7,74 +7,29 @@ class KeranjangView extends GetView<KeranjangController> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: context.colorScheme.outlineVariant.withOpacity(0.3),
-      appBar: AppBar(
-        title: Text(
-          'KeranjangView',
-          style: context.textTheme.titleLarge,
-        ),
-        backgroundColor: context.colorScheme.background,
-        leading: IconButton(
-          icon: Icon(
-            Icons.arrow_back_rounded,
-            color: context.colorScheme.onBackground,
-          ),
-          onPressed: Get.back,
-        ),
+      appBar: appBarKeranjang(
+        title: 'Keranjang Belanja',
+        context: context,
       ),
       body: Column(
         children: [
           Obx(
-            () => Expanded(
-              child: ListView(
-                children: controller.listShop.keys.map((product) {
-                  if (controller.listShop.isEmpty) {
-                    return const Center(
-                      child: Text("PickUp masih kosong"),
-                    );
-                  }
-                  return cardProduct(
-                    context: context,
-                    state: product,
-                    count: controller.listShop[product] ?? 0,
-                    onTapPlus: () {
-                      controller.addListShop(product);
-                    },
-                    onTapMines: () {
-                      controller.deleteListShop(product);
-                    },
-                  );
-                }).toList(),
-              ),
+            () => contentShop(
+              context: context,
+              listShop: controller.listShop,
             ),
           ),
           headerRekomendasiProduct(
-            title: 'Spesial Hari ini',
-            subtitle: 'Promo menarik Hari ini untuk Kamu',
+            title: 'Yang Paling Dicari',
+            subtitle: 'Product Kecintaan Terlaris',
             context: context,
           ),
           controller.obx(
-            (state) => SizedBox(
-              height: context.height * 0.34,
-              child: Expanded(
-                child: (state != null)
-                    ? ListView.builder(
-                        shrinkWrap: true,
-                        itemCount: state.length,
-                        scrollDirection: Axis.horizontal,
-                        itemBuilder: (ctx, index) {
-                          return cardShop(
-                            context: context,
-                            state: state[index],
-                            onTapTambah: () {
-                              controller.addListShop(state[index]);
-                            },
-                          );
-                        },
-                      )
-                    : const EmptyState(),
-              ),
+            (state) => contentProduct(
+              context: context,
+              state: state,
             ),
-            onLoading: const LoadingState(),
+            onLoading: const Expanded(child: LoadingState()),
             onError: (error) => ErrorState(error: error.toString()),
             onEmpty: const EmptyState(),
           ),
@@ -87,11 +42,116 @@ class KeranjangView extends GetView<KeranjangController> {
     );
   }
 
-  Padding cardCheckout({
+  Expanded contentShop({
+    required BuildContext context,
+    required RxMap<DataProduct, int> listShop,
+  }) {
+    return Expanded(
+      child: (controller.listShop.isNotEmpty)
+          ? SingleChildScrollView(
+              child: Column(
+                children: listShop.keys.map((product) {
+                  return cardShop(
+                    context: context,
+                    state: product,
+                    count: listShop[product] ?? 0,
+                    onTapPlus: () {
+                      controller.addListShop(product);
+                    },
+                    onTapMines: () {
+                      controller.deleteListShop(product);
+                    },
+                  );
+                }).toList(),
+              ),
+            )
+          : keranjangKosong(context),
+    );
+  }
+
+  SizedBox contentProduct({
+    required BuildContext context,
+    required List<DataProduct>? state,
+  }) {
+    return SizedBox(
+      height: 260,
+      child: (state != null)
+          ? ListView.builder(
+              shrinkWrap: true,
+              itemCount: state.length,
+              scrollDirection: Axis.horizontal,
+              itemBuilder: (ctx, index) {
+                return cardProduct(
+                  context: context,
+                  state: state[index],
+                  onTapTambah: () {
+                    controller.addListShop(state[index]);
+                  },
+                );
+              },
+            )
+          : const EmptyState(),
+    );
+  }
+
+  AppBar appBarKeranjang({
+    required BuildContext context,
+    required String title,
+  }) {
+    return AppBar(
+      title: Text(
+        title,
+        style: context.textTheme.titleLarge,
+      ),
+      backgroundColor: context.colorScheme.background,
+      leading: IconButton(
+        icon: Icon(
+          Icons.arrow_back_rounded,
+          color: context.colorScheme.onBackground,
+        ),
+        onPressed: Get.back,
+      ),
+    );
+  }
+
+  Center keranjangKosong(BuildContext context) {
+    return Center(
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          children: [
+            Expanded(
+              child: SvgPicture.asset(
+                KeysAssets.empty,
+                fit: BoxFit.contain,
+              ),
+            ),
+            const Gap(12),
+            Text(
+              "Yah, keranjang kamu kosong",
+              style: context.titleLargeBold,
+            ),
+            Text(
+              "Yuk belanja sekarang",
+              style: context.textTheme.titleMedium,
+            ),
+            const Gap(12),
+            // ElevatedButton(
+            //   onPressed: () {},
+            //   child: const Text('Belanja Sekarang'),
+            // ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Container cardCheckout({
     required BuildContext context,
     required void Function() onTapCheckout,
   }) {
-    return Padding(
+    return Container(
+      color: context.colorScheme.background,
       padding: const EdgeInsets.only(bottom: 6, right: 16, left: 16),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -108,24 +168,14 @@ class KeranjangView extends GetView<KeranjangController> {
               Obx(
                 () => Text(
                   "Rp. ${controller.total.value}",
-                  style: const TextStyle(
-                    fontSize: 16,
-                  ),
+                  style: context.textTheme.titleMedium,
                 ),
               ),
             ],
           ),
           ElevatedButton(
-            style: ElevatedButton.styleFrom(
-              fixedSize: const Size(100, 35),
-              minimumSize: const Size(100, 35),
-              backgroundColor: context.colorScheme.primary,
-            ),
             onPressed: onTapCheckout,
-            child: const Text(
-              'Checkout',
-              style: TextStyle(fontSize: 16),
-            ),
+            child: const Text('Checkout'),
           ),
         ],
       ),
@@ -146,12 +196,10 @@ class KeranjangView extends GetView<KeranjangController> {
         children: [
           Text(
             title,
-            // 'Spesial Hari ini',
             style: context.titleMediumBold,
           ),
           Text(
             subtitle,
-            // 'Promo menarik Hari ini untuk Kamu',
             style: context.textTheme.titleMedium,
           ),
         ],
@@ -159,7 +207,7 @@ class KeranjangView extends GetView<KeranjangController> {
     );
   }
 
-  Container cardShop({
+  Container cardProduct({
     required BuildContext context,
     required DataProduct state,
     required void Function() onTapTambah,
@@ -174,6 +222,7 @@ class KeranjangView extends GetView<KeranjangController> {
           borderRadius: BorderRadius.circular(12.0),
         ),
         gradient: RadialGradient(
+          center: Alignment.topCenter,
           colors: [
             // context.colorScheme.background,
             context.colorScheme.primary,
@@ -186,24 +235,31 @@ class KeranjangView extends GetView<KeranjangController> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Card(
+            margin: const EdgeInsets.all(0),
             child: Image.network(
               dataProduct.image,
-              height: context.height * 0.12,
-              width: context.height * 0.12,
               fit: BoxFit.cover,
             ),
           ),
           const Gap(4),
           Text(
             dataProduct.name,
+            overflow: TextOverflow.ellipsis,
             style: context.textTheme.titleMedium,
           ),
-          const Text('1kg'),
-          Text(
-            'Rp. ${dataProduct.price}',
-            style: context.labelMediumBold,
+          RichText(
+            text: TextSpan(
+              text: 'Rp. ${dataProduct.price}',
+              style: context.labelMediumBold,
+              children: [
+                TextSpan(
+                  text: ' /1kg',
+                  style: context.textTheme.titleMedium,
+                ),
+              ],
+            ),
           ),
-          const Gap(8),
+          const Spacer(),
           Center(
             child: ElevatedButton(
               onPressed: onTapTambah,
@@ -215,7 +271,7 @@ class KeranjangView extends GetView<KeranjangController> {
     );
   }
 
-  Container cardProduct({
+  Container cardShop({
     required BuildContext context,
     required DataProduct state,
     required void Function()? onTapPlus,

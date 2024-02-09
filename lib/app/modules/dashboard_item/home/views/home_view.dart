@@ -11,8 +11,6 @@ class HomeView extends GetView<HomeController> {
     final color = context.colorScheme;
     final size = context.deviceSize;
     final selectedIndex = controller.selectedIndex;
-    final searchC = TextEditingController();
-    final swiperC = SwiperController();
 
     return Scaffold(
       backgroundColor: color.outlineVariant.withOpacity(0.3),
@@ -20,27 +18,32 @@ class HomeView extends GetView<HomeController> {
         color: color,
         titleMedium: titleMedium,
         titleMediumBold: titleMediumBold,
-        searchC: searchC,
+        searchC: controller.searchC,
         onTapTitle: context.goPilihLokasi,
       ),
-      body: Column(
-        children: [
-          Obx(
-            () => contentSwip(
-              color: color,
-              size: size,
-              swiperC: swiperC,
-              stateController: selectedIndex,
-              selectedIndex: selectedIndex.value,
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            Obx(
+              () => contentSwip(
+                color: color,
+                size: size,
+                swiperC: controller.swiperC,
+                stateController: selectedIndex,
+                selectedIndex: selectedIndex.value,
+              ),
             ),
-          ),
-          const Gap(20),
-          cardDaftarAkun(
-            onTapLogin: context.goWelcome,
-          ),
-          const Gap(20),
-          const ProductsView(),
-        ],
+            const Gap(16),
+            cardDaftarAkun(
+              onTapLogin: context.goWelcome,
+            ),
+            const Gap(16),
+            const SizedBox(
+              height: 330,
+              child: ProductsView(),
+            ),
+          ],
+        ),
       ),
     );
   }

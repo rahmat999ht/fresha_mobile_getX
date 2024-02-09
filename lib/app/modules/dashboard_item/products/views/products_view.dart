@@ -17,11 +17,17 @@ class ProductsView extends GetView<ProductsController> {
             if (state != null)
               Expanded(
                 child: GridView.builder(
-                  padding: const EdgeInsets.all(12.0),
-                  gridDelegate: CustomGridDelegate(dimension: 150.0),
+                  padding: const EdgeInsets.all(8.0),
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 1,
+                    childAspectRatio: 1.450,
+                    mainAxisSpacing: 4.0,
+                    crossAxisSpacing: 4.0,
+                  ),
+                  // gridDelegate: CustomGridDelegate(dimension: 150.0),
                   itemCount: state.data.length,
                   shrinkWrap: true,
-                  // scrollDirection: Axis.horizontal, // The default is vertical.
+                  scrollDirection: Axis.horizontal, // The default is vertical.
                   // reverse: true, // The default is false, going down (or left to right).
                   itemBuilder: (BuildContext ctx, int index) {
                     return cardProduct(
@@ -62,12 +68,10 @@ class ProductsView extends GetView<ProductsController> {
         children: [
           Text(
             title,
-            // 'Spesial Hari ini',
             style: context.titleMediumBold,
           ),
           Text(
             subtitle,
-            // 'Promo menarik Hari ini untuk Kamu',
             style: context.textTheme.titleMedium,
           ),
         ],
@@ -89,7 +93,7 @@ class ProductsView extends GetView<ProductsController> {
           title: Text('$index', style: const TextStyle(color: Colors.black)),
         ),
         child: Container(
-          margin: const EdgeInsets.all(12.0),
+          margin: const EdgeInsets.only(top: 12, bottom: 12, left: 12),
           padding: const EdgeInsets.all(12.0),
           decoration: ShapeDecoration(
             shape: RoundedRectangleBorder(
@@ -107,10 +111,11 @@ class ProductsView extends GetView<ProductsController> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Card(
+                margin: const EdgeInsets.all(0),
                 child: Image.network(
                   dataProduct.image,
-                  height: context.height * 0.17,
-                  width: context.height * 0.17,
+                  // height: context.height * 0.17,
+                  // width: context.height * 0.17,
                   fit: BoxFit.cover,
                 ),
               ),

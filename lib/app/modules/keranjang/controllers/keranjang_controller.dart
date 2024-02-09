@@ -18,10 +18,9 @@ class KeranjangController extends GetxController
     if (Get.arguments != null) {
       dataProduct = Get.arguments as DataProduct;
       addListShop(dataProduct!);
+      total.value = dataProduct!.price;
       log(dataProduct!.id, name: 'kerangjang list Product');
       log(listShop.toString(), name: 'kerangjang listShop');
-      // change([dataProduct!], status: RxStatus.success());
-      // findAllProduct(id: dataProduct!);
     } else {
       dataProduct = null;
     }
@@ -64,6 +63,7 @@ class KeranjangController extends GetxController
         change(result.data, status: RxStatus.success());
       } else {
         log('kosong', name: 'data kosong');
+        change([], status: RxStatus.empty());
       }
     }, onError: (err) {
       change(null, status: RxStatus.error(err.toString()));

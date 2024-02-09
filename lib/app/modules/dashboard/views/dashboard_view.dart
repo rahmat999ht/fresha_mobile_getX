@@ -24,20 +24,21 @@ class DashboardView extends GetView<DashboardController> {
     );
   }
 
-  Container fab(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        color: context.colorScheme.primary,
-        borderRadius: BorderRadius.circular(25),
-      ),
-      height: 50.0,
-      width: 50.0,
-      child: Material(
-        color: Colors.transparent,
-        borderRadius: BorderRadius.circular(25),
-        child: InkWell(
-          borderRadius: BorderRadius.circular(30),
-          splashColor: Colors.black54,
+  GestureDetector fab(BuildContext context) {
+    return GestureDetector(
+      onTap: () {
+        context.goKerangjang(arguments: null);
+      },
+      child: Container(
+        decoration: BoxDecoration(
+          color: context.colorScheme.primary,
+          borderRadius: BorderRadius.circular(25),
+        ),
+        height: 50.0,
+        width: 50.0,
+        child: Material(
+          color: Colors.transparent,
+          borderRadius: BorderRadius.circular(25),
           child: Icon(
             Icons.shopping_cart_outlined,
             color: context.colorScheme.onSecondary,

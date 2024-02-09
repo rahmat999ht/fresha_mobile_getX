@@ -10,8 +10,8 @@ class KeysEnpoint {
   static const String webClientID = 'WEB_CLIENT_ID';
   static const String anonKey = 'ANON_KEY';
   static const String products = '/products';
-  static const String publicProduct = '/public_product';
+  static const String orders = '/orders';
   static const String user = '/user';
-  static const String register = '/auth-cotumer/sigin';
-  static const String login = '/auth-cotumer/login';
+  static const String register = '/auth-costumer/signin';
+  static const String login = '/auth-costumer/login';
 }

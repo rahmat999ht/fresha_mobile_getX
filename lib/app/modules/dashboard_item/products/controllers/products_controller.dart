@@ -6,6 +6,12 @@ class ProductsController extends GetxController with StateMixin<ModelProduct> {
   final ProductProvider productProvider;
   ProductsController({required this.productProvider});
 
+  @override
+  void onInit() {
+    findAllProduct();
+    super.onInit();
+  }
+
   Future findAllProduct() async {
     productProvider.fetchProducts().then((result) {
       if (result.code == 200) {
@@ -17,11 +23,5 @@ class ProductsController extends GetxController with StateMixin<ModelProduct> {
     }, onError: (err) {
       change(null, status: RxStatus.error(err.toString()));
     });
-  }
-
-  @override
-  void onInit() {
-    findAllProduct();
-    super.onInit();
   }
 }
