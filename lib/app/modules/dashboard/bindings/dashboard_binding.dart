@@ -31,7 +31,10 @@ class DashboardBinding extends Bindings {
       ),
     );
     Get.put<PesananController>(
-      PesananController(orderProvider: Get.find()),
+      PesananController(
+        orderProvider: Get.find(),
+        productProvider: Get.find(),
+      ),
     );
     Get.lazyPut<AkunController>(
       () => AkunController(),

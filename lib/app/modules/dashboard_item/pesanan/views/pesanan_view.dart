@@ -13,6 +13,7 @@ class PesananView extends GetView<PesananController> {
       initialIndex: 1,
       length: 2,
       child: Scaffold(
+        backgroundColor: context.colorScheme.outlineVariant.withOpacity(0.3),
         appBar: AppBar(
           title: Text(KeysNavBar.pesanan, style: textStyle.titleLarge),
           backgroundColor: color.background,
@@ -43,13 +44,16 @@ class PesananView extends GetView<PesananController> {
     required ModelOrders state,
     required BuildContext context,
   }) {
-    if (state.data.isEmpty) {
+    final initData =
+        state.data.where((element) => element.status == 'selesai').toList();
+
+    if (initData.isEmpty) {
       return keranjangKosong(context: context);
     } else {
-       return ListView.builder(
-        itemCount: state.data.length,
+      return ListView.builder(
+        itemCount: initData.length,
         itemBuilder: (ctx, i) {
-          final data = state.data[i];
+          final data = initData[i];
           return Text(data.status);
         },
       );
@@ -60,14 +64,20 @@ class PesananView extends GetView<PesananController> {
     required ModelOrders state,
     required BuildContext context,
   }) {
-    if (state.data.isEmpty) {
+    final initData =
+        state.data.where((element) => element.status == 'diproses').toList();
+
+    if (initData.isEmpty) {
       return keranjangKosong(context: context);
     } else {
       return ListView.builder(
-        itemCount: state.data.length,
+        itemCount: initData.length,
         itemBuilder: (ctx, i) {
-          final data = state.data[i];
-          return Text(data.status);
+          final data = initData[i];
+          return cardOrder(
+            context: context,
+            dataOrder: data,
+          );
         },
       );
     }
@@ -123,6 +133,78 @@ class PesananView extends GetView<PesananController> {
             const Gap(12),
           ],
         ),
+      ),
+    );
+  }
+
+  Container cardOrder({
+    required BuildContext context,
+    required DataOrder dataOrder,
+  }) {
+    return Container(
+      width: context.width,
+      margin: const EdgeInsets.all(12.0),
+      padding: const EdgeInsets.all(12.0),
+      decoration: ShapeDecoration(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(12.0),
+        ),
+        gradient: RadialGradient(
+          center: Alignment.centerLeft,
+          colors: [
+            context.colorScheme.primary,
+            context.colorScheme.background,
+          ],
+        ),
+      ),
+      child: FutureBuilder(
+        future: controller.productProvider.fetchIdProducts(dataOrder.productId),
+        builder: (context, snap) {
+          if (snap.connectionState == ConnectionState.none ||
+              snap.data == null) {
+            return const LoadingState();
+          }
+          final data = snap.data!.data;
+          return Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Card(
+                child: Image.network(
+                  data.image,
+                  height: context.height * 0.1,
+                  width: context.height * 0.1,
+                  fit: BoxFit.cover,
+                ),
+              ),
+              const Gap(8),
+              Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    data.name,
+                    style: context.textTheme.titleMedium,
+                  ),
+                  const Text('1kg'),
+                  Text(
+                    'Rp. ${data.price}',
+                    style: context.labelMediumBold,
+                  ),
+                ],
+              ),
+              const Spacer(),
+              ElevatedButton(
+                onPressed: () {
+                  context.goKerangjang(
+                    arguments: data as DataProduct,
+                  );
+                },
+                child: const Text("Pesan Lagi"),
+              ),
+            ],
+          );
+        },
       ),
     );
   }

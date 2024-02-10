@@ -5,8 +5,7 @@ import '../core.dart';
 class ProductProvider extends GetConnect {
   // baseUrl
   final String baseURL = dotenv.get(KeysEnpoint.baseUrl);
-  // final String baseURL = "http://192.168.1.12:3000/api";
-
+ 
   Future<ModelProductById> fetchIdProducts(String id) async {
     try {
       final String urlProduct = '${KeysEnpoint.products}/$id';
@@ -25,11 +24,6 @@ class ProductProvider extends GetConnect {
     }
   }
 
-  // Post request
-  Future<Response> postUser(ModelProduct model) => post(
-        '$baseURL/${KeysEnpoint.products}',
-        model.data,
-      );
   // Get request Product
   Future getProductPage(int page) async {
     try {
@@ -68,23 +62,7 @@ class ProductProvider extends GetConnect {
 
   @override
   void onInit() {
-    // All request will pass to jsonEncode so CasesModel.fromJson()
-    // httpClient.defaultDecoder = (map) {
-    //   if (map is Map<String, dynamic>) {
-    //     log("Data = ${map.toString()}", name: "jjj");
-    //     return ModelIdProduct.fromJson(map);
-    //   }
-    //   if (map is List) {
-    //     return map.map((item) {
-    //       // log(item ?? "ko", name: "jjj");
-    //       return modelProductFromJson(item);
-    //     }).toList();
-    //   }
-    // };
-    // httpClient.addRequestModifier((request) {
-    //   request.headers['Authorization'] = 'Bearer sdfsdfgsdfsdsdf12345678';
-    //   return request;
-    // });
     httpClient.baseUrl = baseURL;
+    super.onInit();
   }
 }

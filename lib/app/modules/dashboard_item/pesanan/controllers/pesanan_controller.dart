@@ -7,7 +7,8 @@ import '../../../../../core.dart';
 class PesananController extends GetxController with StateMixin<ModelOrders> {
 
   final OrderProvider orderProvider;
-  PesananController({required this.orderProvider});
+  final ProductProvider productProvider;
+  PesananController({required this.orderProvider, required this.productProvider,});
 
   @override
   void onInit() {

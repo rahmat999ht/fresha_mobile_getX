@@ -302,8 +302,8 @@ class KeranjangView extends GetView<KeranjangController> {
           Card(
             child: Image.network(
               dataProduct.image,
-              height: context.height * 0.1,
-              width: context.height * 0.1,
+              height: context.height * 0.12,
+              width: context.height * 0.12,
               fit: BoxFit.cover,
             ),
           ),
@@ -316,10 +316,17 @@ class KeranjangView extends GetView<KeranjangController> {
                 dataProduct.name,
                 style: context.textTheme.titleMedium,
               ),
-              const Text('1kg'),
-              Text(
-                'Rp. ${dataProduct.price}',
-                style: context.labelMediumBold,
+              RichText(
+                text: TextSpan(
+                  text: 'Rp. ${dataProduct.price}',
+                  style: context.labelMediumBold,
+                  children: [
+                    TextSpan(
+                      text: ' /1kg',
+                      style: context.textTheme.titleMedium,
+                    ),
+                  ],
+                ),
               ),
             ],
           ),
@@ -336,28 +343,25 @@ class KeranjangView extends GetView<KeranjangController> {
                     ),
                   ),
                   child: const SizedBox(
-                    height: 30,
-                    width: 40,
+                    height: 25,
+                    width: 30,
                     child: Center(
                       child: Icon(Icons.remove_outlined),
                     ),
                   ),
                 ),
               ),
-              SizedBox(
-                height: 30,
-                width: 30,
-                child: Center(
-                  child: Text("$count"),
-                ),
-              ),
+              Text("$count /kg"),
               InkWell(
                 onTap: onTapPlus,
                 child: Card(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(5),
+                  ),
                   color: context.colorScheme.primary,
                   child: const SizedBox(
-                    height: 30,
-                    width: 40,
+                    height: 25,
+                    width: 30,
                     child: Center(
                       child: Icon(Icons.add),
                     ),
