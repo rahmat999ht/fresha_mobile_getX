@@ -33,20 +33,9 @@ class LoginController extends GetxController {
   Future login({required BuildContext context}) async {
     if (formkey.currentState!.validate()) {
       loadingState();
-      authProvider.login(cFormEmail.text).then((value) {
-        log(value.body!.data.customer.toString(), name: 'customer login');
-        log(value.body!.data.token.toString(), name: 'token login');
-
-        hiveService.putEmail(cFormEmail.text);
-        hiveService.putIdCustomer(value.body!.data.customer.id);
-        hiveService.putCustomerToken(value.body!.data.token);
-        context.goDasboard();
-        cFormEmail.clear();
-        loadingState();
-      }).onError((error, stackTrace) {
-        loadingState();
-        log(error.toString() + stackTrace.toString(), name: 'error login');
-      });
+      await authProvider.login(cFormEmail.text);
+      context.goDasboard();
+      loadingState();
     }
   }
 }

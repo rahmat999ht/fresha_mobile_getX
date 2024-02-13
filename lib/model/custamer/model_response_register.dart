@@ -4,7 +4,7 @@
 
 import 'dart:convert';
 
-import '../core.dart';
+import '../../core.dart';
 
 ModelResponseRegister modelResponseRegisterFromJson(String str) => ModelResponseRegister.fromJson(json.decode(str));
 
@@ -13,7 +13,7 @@ String modelResponseRegisterToJson(ModelResponseRegister data) => json.encode(da
 class ModelResponseRegister {
     int code;
     String status;
-    Customer data;
+    DataCustomer data;
 
     ModelResponseRegister({
         required this.code,
@@ -24,7 +24,7 @@ class ModelResponseRegister {
     factory ModelResponseRegister.fromJson(Map<String, dynamic> json) => ModelResponseRegister(
         code: json["code"],
         status: json["status"],
-        data: Customer.fromJson(json["data"]),
+        data: DataCustomer.fromJson(json["data"]),
     );
 
     Map<String, dynamic> toJson() => {

@@ -16,6 +16,11 @@ class AuthProvider extends GetConnect {
       ).then((response) {
         log(response.bodyString!, name: 'data response login');
         // Convert JSON map to model
+        HiveService hiveService = HiveService();
+        final dataLogin = modelResponseLoginFromJson(response.bodyString!);
+        hiveService.putIdCustomer(dataLogin.data.customer.id);
+        hiveService.putEmail(dataLogin.data.customer.email);
+        hiveService.putCustomerToken(dataLogin.data.token);
         return Response(
           body: modelResponseLoginFromJson(response.bodyString!),
         );

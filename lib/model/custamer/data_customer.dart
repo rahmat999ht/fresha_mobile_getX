@@ -1,5 +1,5 @@
 
-class Customer {
+class DataCustomer {
   String id;
   dynamic name;
   String email;
@@ -8,7 +8,7 @@ class Customer {
   dynamic emailVerified;
   dynamic image;
 
-  Customer({
+  DataCustomer({
     required this.id,
     required this.name,
     required this.email,
@@ -18,7 +18,7 @@ class Customer {
     required this.image,
   });
 
-  factory Customer.fromJson(Map<String, dynamic> json) => Customer(
+  factory DataCustomer.fromJson(Map<String, dynamic> json) => DataCustomer(
         id: json["id"],
         name: json["name"],
         email: json["email"],
@@ -38,3 +38,13 @@ class Customer {
         "image": image,
       };
 }
+
+
+// {
+//     "id": "clsj2lg840001m515mdskrnoy",
+//     "name": "yayat",
+//     "email": "rahmat999ht@gmail.com",
+//     "phone": "vsdva",
+//     "address": "sjdvjs",
+//     "image": "ajkdkbs"
+//   }

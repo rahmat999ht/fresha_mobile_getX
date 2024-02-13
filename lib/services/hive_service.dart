@@ -36,13 +36,13 @@ class HiveService {
     await _box?.delete(HiveKey.idCustomer);
   }
 
-  ModelCustomer? get getCustomer {
+  DataCustomer? get getCustomer {
     try {
       final hiveJson = _box?.get(HiveKey.customer);
       if (hiveJson == null) return null;
 
       final customerJson = json.decode(hiveJson);
-      return ModelCustomer.fromJson(customerJson);
+      return DataCustomer.fromJson(customerJson);
     } catch (error, st) {
       log(error.toString(), error: error, stackTrace: st);
       return null;
@@ -50,7 +50,7 @@ class HiveService {
   }
 
   /// for storingtCustomer to app
-  Future<void> putCustomer(ModelCustomer customer) async {
+  Future<void> putCustomer(DataCustomer customer) async {
     final hiveJson = customer.toJson();
     final customerJson = json.encode(hiveJson);
     await _box?.put(HiveKey.customer, customerJson);

@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import '../core.dart';
+import '../../core.dart';
 
 ModelResponseLogin modelResponseLoginFromJson(String str) =>
     ModelResponseLogin.fromJson(json.decode(str));
@@ -34,7 +34,7 @@ class ModelResponseLogin {
 }
 
 class DataResponseLogin {
-  Customer customer;
+  DataCustomer customer;
   String token;
 
   DataResponseLogin({
@@ -44,7 +44,7 @@ class DataResponseLogin {
 
   factory DataResponseLogin.fromJson(Map<String, dynamic> json) =>
       DataResponseLogin(
-        customer: Customer.fromJson(json["data"]),
+        customer: DataCustomer.fromJson(json["data"]),
         token: json["token"],
       );
 

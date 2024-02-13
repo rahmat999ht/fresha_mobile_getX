@@ -4,7 +4,8 @@
 
 import 'dart:convert';
 
-import 'model.dart';
+import 'package:fresha_mobile/model/model.dart';
+
 
 ModelCustomer modelCustomerFromJson(String str) => ModelCustomer.fromJson(json.decode(str));
 
@@ -13,7 +14,7 @@ String modelCustomerToJson(ModelCustomer data) => json.encode(data.toJson());
 class ModelCustomer {
     int code;
     String status;
-    List<Customer> data;
+    List<DataCustomer> data;
     Meta meta;
 
     ModelCustomer({
@@ -26,7 +27,7 @@ class ModelCustomer {
     factory ModelCustomer.fromJson(Map<String, dynamic> json) => ModelCustomer(
         code: json["code"],
         status: json["status"],
-        data: List<Customer>.from(json["data"].map((x) => Customer.fromJson(x))),
+        data: List<DataCustomer>.from(json["data"].map((x) => DataCustomer.fromJson(x))),
         meta: Meta.fromJson(json["meta"]),
     );
 
@@ -35,40 +36,5 @@ class ModelCustomer {
         "status": status,
         "data": List<dynamic>.from(data.map((x) => x.toJson())),
         "meta": meta.toJson(),
-    };
-}
-class Meta {
-    int perPage;
-    int currentPage;
-    int lastPage;
-    int total;
-    dynamic prev;
-    dynamic next;
-
-    Meta({
-        required this.perPage,
-        required this.currentPage,
-        required this.lastPage,
-        required this.total,
-        required this.prev,
-        required this.next,
-    });
-
-    factory Meta.fromJson(Map<String, dynamic> json) => Meta(
-        perPage: json["perPage"],
-        currentPage: json["currentPage"],
-        lastPage: json["lastPage"],
-        total: json["total"],
-        prev: json["prev"],
-        next: json["next"],
-    );
-
-    Map<String, dynamic> toJson() => {
-        "perPage": perPage,
-        "currentPage": currentPage,
-        "lastPage": lastPage,
-        "total": total,
-        "prev": prev,
-        "next": next,
     };
 }
