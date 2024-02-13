@@ -12,6 +12,7 @@ class KeysEnpoint {
   static const String products = '/products';
   static const String orders = '/orders';
   static const String user = '/user';
+  static const String auth = '/auth-costumer';
   static const String register = '/auth-costumer/signin';
   static const String login = '/auth-costumer/login';
 }

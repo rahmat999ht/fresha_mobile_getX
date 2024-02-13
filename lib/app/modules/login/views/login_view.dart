@@ -7,7 +7,6 @@ class LoginView extends GetView<LoginController> {
   Widget build(BuildContext context) {
     final color = context.colorScheme;
     final size = context.deviceSize;
-    final cFormEmail = TextEditingController();
     final titleMediumBold = context.titleMediumBold;
 
     final titleLargeBold = context.titleLargeBold.copyWith(
@@ -44,60 +43,70 @@ class LoginView extends GetView<LoginController> {
           ),
           Padding(
             padding: const EdgeInsets.all(16.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Masuk',
-                  style: titleLargeBold,
-                ),
-                Text(
-                  'Masukkan Email Anda',
-                  style: titleMediumBold,
-                ),
-                GestureDetector(
-                  onTap: () {},
-                  child: TextFormField(
-                    controller: cFormEmail,
-                    readOnly: true,
-                    onChanged: (c) {
-                      cFormEmail.text = c;
-                    },
-                    decoration: const InputDecoration(
-                      hintText: "Email",
-                      filled: true,
-                      contentPadding: EdgeInsets.symmetric(
-                        horizontal: 14,
-                        vertical: 0,
+            child: Form(
+              key: controller.formkey,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Masuk',
+                    style: titleLargeBold,
+                  ),
+                  Text(
+                    'Masukkan Email Anda',
+                    style: titleMediumBold,
+                  ),
+                  GestureDetector(
+                    onTap: () {},
+                    child: TextFormField(
+                      controller: controller.cFormEmail,
+                      keyboardType: TextInputType.emailAddress,
+                      decoration: const InputDecoration(
+                        hintText: "Email",
+                        filled: true,
+                        contentPadding: EdgeInsets.symmetric(
+                          horizontal: 14,
+                          vertical: 0,
+                        ),
                       ),
                     ),
                   ),
-                ),
-                const Gap(12),
-                ElevatedButton(
-                  onPressed: context.goLogin,
-                  style: OutlinedButton.styleFrom(
-                    minimumSize: Size(size.width, 40),
-                  ),
-                  child: const Text("Lanjutkan"),
-                ),
-                const Gap(12),
-                const Stack(
-                  children: [
-                    Row(
-                      children: [
-                        Icon(Icons.lock),
-                      ],
-                    ),
-                    Padding(
-                      padding: EdgeInsets.only(left: 24),
-                      child: Text(
-                        "Data anda sudah dilindungi dan tidak dibagikan. Dengan menggunakan layanan Sayurbox, anda telah menyetujui Syarat dan Ketentuan dan Kebijakan Privasi kami",
+                  const Gap(12),
+                  Obx(
+                    () => ElevatedButton(
+                      onPressed: () {
+                        controller.isLoading.value
+                            ? null
+                            : controller.login(context: context);
+                      },
+                      style: OutlinedButton.styleFrom(
+                        minimumSize: Size(size.width, 40),
                       ),
+                      child: controller.isLoading.value
+                          ? CircularProgressIndicator(
+                              color: context.colorScheme.background,
+                            )
+                          : const Text("Masuk"),
                     ),
-                  ],
-                ),
-              ],
+                  ),
+                  const Gap(12),
+                  const Stack(
+                    children: [
+                      Row(
+                        children: [
+                          Icon(Icons.lock),
+                        ],
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(left: 24),
+                        child: Text(
+                          "Data anda sudah dilindungi dan tidak dibagikan. Dengan menggunakan layanan Sayurbox, anda telah menyetujui Syarat dan Ketentuan dan Kebijakan Privasi kami",
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
             ),
           ),
         ],

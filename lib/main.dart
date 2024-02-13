@@ -3,6 +3,8 @@ import 'package:fresha_mobile/core.dart';
 Future main() async {
   await dotenv.load(fileName: '.env');
   EasyLoading.init();
+  HiveService hiveService = HiveService();
+  hiveService.hiveInit();
   var initialRoute = Routes.DASHBOARD;
   runApp(FutureBuilder(
     future: Future.delayed(const Duration(seconds: 3)),
@@ -43,12 +45,20 @@ class SplashScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: context.colorScheme.background,
       body: Center(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.end,
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Image.asset(KeysAssets.bgWelcome),
+            Image.asset(
+              KeysAssets.sayur,
+              width: context.width * 0.3,
+            ),
+            const Gap(20),
+            SvgPicture.asset(
+              KeysAssets.fresha,
+              width: context.width * 0.4,
+            )
           ],
         ),
       ),

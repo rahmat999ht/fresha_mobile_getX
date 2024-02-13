@@ -1,7 +1,5 @@
 import 'dart:developer';
 
-import 'package:fresha_mobile/model/model_order.dart';
-
 import '../../../../../core.dart';
 
 class PesananController extends GetxController with StateMixin<ModelOrders> {

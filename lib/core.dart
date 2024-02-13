@@ -1,5 +1,6 @@
 export '../constants/constants.dart';
 export '../model/model.dart';
+export '../provider/provider.dart';
 export '../services/services.dart';
 export '../state/state.dart';
 export '../theme/app_theme.dart';
@@ -9,6 +10,7 @@ export 'app/routes/app_pages.dart';
 export 'package:card_swiper/card_swiper.dart';
 export 'package:flex_color_scheme/flex_color_scheme.dart';
 export 'package:flutter/material.dart';
+export 'package:flutter/rendering.dart';
 export 'package:flutter_dotenv/flutter_dotenv.dart';
 export 'package:flutter_easyloading/flutter_easyloading.dart';
 export 'package:flutter_svg/flutter_svg.dart';
@@ -17,5 +19,4 @@ export 'package:get/get.dart';
 export 'package:google_fonts/google_fonts.dart';
 export 'package:google_sign_in/google_sign_in.dart';
 export 'package:hive_flutter/hive_flutter.dart';
-export 'package:flutter/rendering.dart';
 

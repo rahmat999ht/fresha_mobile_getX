@@ -1,33 +1,21 @@
 import 'dart:convert';
 
-// ignore_for_file: public_member_api_docs, sort_constructors_first
-class UserRequest {
-  final String email;
-  final String name;
-  final String image;
-  UserRequest({
-    required this.email,
-    required this.name,
-    required this.image,
-  });
+ModelUserRequest modelUserRequestFromJson(String str) => ModelUserRequest.fromJson(json.decode(str));
 
-  Map<String, dynamic> toMap() {
-    return <String, dynamic>{
-      'email': email,
-      'name': name,
-      'image': image,
-    };
-  }
+String modelUserRequestToJson(ModelUserRequest data) => json.encode(data.toJson());
 
-  factory UserRequest.fromMap(Map<String, dynamic> map) {
-    return UserRequest(
-      email: map['email'] as String,
-      name: map['name'] as String,
-      image: map['image'] as String,
+class ModelUserRequest {
+    String email;
+
+    ModelUserRequest({
+        required this.email,
+    });
+
+    factory ModelUserRequest.fromJson(Map<String, dynamic> json) => ModelUserRequest(
+        email: json["email"],
     );
-  }
 
-  String toJson() => json.encode(toMap());
-
-  factory UserRequest.fromJson(String source) => UserRequest.fromMap(json.decode(source) as Map<String, dynamic>);
+    Map<String, dynamic> toJson() => {
+        "email": email,
+    };
 }

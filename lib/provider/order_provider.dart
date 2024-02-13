@@ -1,9 +1,6 @@
 import 'dart:async';
 import 'dart:developer';
 
-import 'package:fresha_mobile/model/model_order.dart';
-import 'package:fresha_mobile/model/model_order_by_id.dart';
-
 import '../core.dart';
 
 class OrderProvider extends GetConnect {

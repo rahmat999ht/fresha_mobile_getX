@@ -1,80 +1,34 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:developer';
 
 import '../../../../core.dart';
 
 class RegisterController extends GetxController {
+  final AuthProvider authProvider;
+  // final HiveService hiveService;
+  RegisterController({
+    required this.authProvider,
+    // required this.hiveService,
+  });
+
+  final formkey = GlobalKey<FormState>();
+
   final cFormEmail = TextEditingController();
+  final isLoading = false.obs;
 
-  final GoogleSignIn _googleSignIn = GoogleSignIn(
-    scopes: [
-      'email',
-      'https://www.googleapis.com/auth/contacts.readonly',
-    ],
-  );
-
-  initLogin() {
-    _googleSignIn.onCurrentUserChanged
-        .listen((GoogleSignInAccount? account) async {
-      if (account != null) {
-        await GoogleSignIn().signOut();
-      } else {
-        // user NOT logged
-      }
-    });
-    _googleSignIn.signInSilently().whenComplete(
-          () => EasyLoading.dismiss(),
-        );
+  void loadingState() {
+    isLoading.value = !isLoading.value;
   }
 
-  Future signInGoogle() async {
-    log('singInGoogle');
-    await EasyLoading.show(
-      status: 'loading...',
-      // maskType: EasyLoadingMaskType.black,
-    );
-    await GoogleSignIn().signOut();
-
-    final GoogleSignInAccount? gUser = await GoogleSignIn().signIn();
-
-    // final GoogleSignInAuthentication gAuth = await gUser!.authentication;
-
-    // final accessToken = gAuth.accessToken;
-    // final idToken = gAuth.idToken;
-
-    if (gUser != null) {
-      final email = gUser.email;
-      final name = gUser.displayName;
-      final image = gUser.photoUrl;
-
-      log(
-        email.toString(),
-        name: "singInGoogle email",
-      );
-      log(
-        name.toString(),
-        name: "singInGoogle name",
-      );
-      log(
-        image.toString(),
-        name: "singInGoogle image",
-      );
-    } else {
-      EasyLoading.dismiss();
+  Future register({required BuildContext context}) async {
+    if (formkey.currentState!.validate()) {
+      loadingState();
+      authProvider.register(cFormEmail.text).then((value) {
+        log(value.body.toString(), name: 'bodi regis');
+        context.goLogin(arguments: cFormEmail.text);
+        cFormEmail.clear();
+        loadingState();
+      });
     }
-
-    // log(
-    //   accessToken.toString(),
-    //   name: "singInGoogle accessToken",
-    // );
-    // log(
-    //   idToken.toString(),
-    //   name: "singInGoogle idToken",
-    // );
-  }
-
-  @override
-  void onInit() {
-    initLogin();
-    super.onInit();
   }
 }

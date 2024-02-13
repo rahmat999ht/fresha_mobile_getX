@@ -1,5 +1,3 @@
-import 'package:fresha_mobile/model/model_order.dart';
-
 import '../../../../../core.dart';
 import '../controllers/pesanan_controller.dart';
 
@@ -162,6 +160,9 @@ class PesananView extends GetView<PesananController> {
         builder: (context, snap) {
           if (snap.connectionState == ConnectionState.none ||
               snap.data == null) {
+            return const EmptyState();
+          }
+          if (snap.connectionState == ConnectionState.waiting) {
             return const LoadingState();
           }
           final data = snap.data!.data;
@@ -197,7 +198,7 @@ class PesananView extends GetView<PesananController> {
               ElevatedButton(
                 onPressed: () {
                   context.goKerangjang(
-                    arguments: data as DataProduct,
+                    arguments: data,
                   );
                 },
                 child: const Text("Pesan Lagi"),

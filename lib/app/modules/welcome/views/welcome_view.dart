@@ -50,7 +50,9 @@ class WelcomeView extends GetView<WelcomeController> {
                 ),
                 const Gap(20),
                 ElevatedButton(
-                  onPressed: context.goLogin,
+                  onPressed: () {
+                    context.goLogin(arguments: null);
+                  },
                   child: const Text("Masuk"),
                 ),
               ],

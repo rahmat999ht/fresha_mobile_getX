@@ -20,92 +20,98 @@ class RegisterView extends GetView<RegisterController> {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Container(
-            height: 240,
-            width: size.width,
-            alignment: Alignment.topLeft,
-            decoration: const BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage(KeysAssets.headerLogin),
-                fit: BoxFit.cover,
-              ),
-            ),
-            child: Padding(
-              padding: const EdgeInsets.only(
-                top: 20,
-              ),
-              child: IconButton(
-                onPressed: () {},
-                icon: const Icon(
-                  Icons.arrow_back_rounded,
-                ),
-              ),
-            ),
-          ),
+          appBarBack(size),
           Padding(
             padding: const EdgeInsets.all(16.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Daftar',
-                  style: titleLargeBold,
-                ),
-                Text(
-                  'Masukkan Email Anda',
-                  style: titleMediumBold,
-                ),
-                GestureDetector(
-                  onTap: controller.signInGoogle,
-                  child: AbsorbPointer(
-                    absorbing: true,
-                    child: TextFormField(
-                      controller: controller.cFormEmail,
-                      readOnly: true,
-                      enableSuggestions: false,
-                      onChanged: (c) {
-                        controller.cFormEmail.text = c;
+            child: Form(
+              key: controller.formkey,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Daftar',
+                    style: titleLargeBold,
+                  ),
+                  Text(
+                    'Masukkan Email Anda',
+                    style: titleMediumBold,
+                  ),
+                  TextFormField(
+                    controller: controller.cFormEmail,
+                    keyboardType: TextInputType.emailAddress,
+                    decoration: const InputDecoration(
+                      hintText: "Email",
+                      filled: true,
+                      contentPadding: EdgeInsets.symmetric(
+                        horizontal: 14,
+                        vertical: 0,
+                      ),
+                    ),
+                  ),
+                  const Gap(12),
+                  Obx(
+                    () => ElevatedButton(
+                      onPressed: () {
+                        controller.isLoading.value
+                            ? null
+                            : controller.register(context: context);
                       },
-                      decoration: const InputDecoration(
-                        hintText: "Email",
-                        filled: true,
-                        contentPadding: EdgeInsets.symmetric(
-                          horizontal: 14,
-                          vertical: 0,
+                      style: OutlinedButton.styleFrom(
+                        minimumSize: Size(size.width, 40),
+                      ),
+                      child: controller.isLoading.value
+                          ? CircularProgressIndicator(
+                              color: context.colorScheme.background,
+                            )
+                          : const Text("Lanjutkan"),
+                    ),
+                  ),
+                  const Gap(12),
+                  const Stack(
+                    children: [
+                      Row(
+                        children: [
+                          Icon(Icons.lock),
+                        ],
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(left: 24),
+                        child: Text(
+                          "Data anda sudah dilindungi dan tidak dibagikan. Dengan menggunakan layanan Sayurbox, anda telah menyetujui Syarat dan Ketentuan dan Kebijakan Privasi kami",
                         ),
                       ),
-                    ),
+                    ],
                   ),
-                ),
-                const Gap(12),
-                ElevatedButton(
-                  // onPressed: context.goLogin,
-                  onPressed: controller.signInGoogle,
-                  style: OutlinedButton.styleFrom(
-                    minimumSize: Size(size.width, 40),
-                  ),
-                  child: const Text("Lanjutkan"),
-                ),
-                const Gap(12),
-                const Stack(
-                  children: [
-                    Row(
-                      children: [
-                        Icon(Icons.lock),
-                      ],
-                    ),
-                    Padding(
-                      padding: EdgeInsets.only(left: 24),
-                      child: Text(
-                        "Data anda sudah dilindungi dan tidak dibagikan. Dengan menggunakan layanan Sayurbox, anda telah menyetujui Syarat dan Ketentuan dan Kebijakan Privasi kami",
-                      ),
-                    ),
-                  ],
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ],
+      ),
+    );
+  }
+
+  Container appBarBack(Size size) {
+    return Container(
+      height: 240,
+      width: size.width,
+      alignment: Alignment.topLeft,
+      decoration: const BoxDecoration(
+        image: DecorationImage(
+          image: AssetImage(KeysAssets.headerLogin),
+          fit: BoxFit.cover,
+        ),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.only(
+          top: 20,
+        ),
+        child: IconButton(
+          onPressed: Get.back,
+          icon: const Icon(
+            Icons.arrow_back_rounded,
+          ),
+        ),
       ),
     );
   }

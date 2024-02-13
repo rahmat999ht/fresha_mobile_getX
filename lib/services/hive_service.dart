@@ -1,4 +1,3 @@
-
 import 'dart:convert';
 import 'dart:developer';
 
@@ -23,40 +22,53 @@ class HiveService {
     _box?.put(HiveKey.firstInstall, 'false');
   }
 
-   ModelCustomer? get getUser {
+  String? get getIdCustomer {
+    return _box?.get(HiveKey.idCustomer);
+  }
+
+  /// for storingtCustomer to app
+  Future<void> putIdCustomer(String token) async {
+    await _box?.put(HiveKey.idCustomer, token);
+  }
+
+  /// for deletetCustomer to app
+  Future<void> deleteIdCustomer() async {
+    await _box?.delete(HiveKey.idCustomer);
+  }
+
+  ModelCustomer? get getCustomer {
     try {
-      final hiveJson = _box?.get(HiveKey.user);
+      final hiveJson = _box?.get(HiveKey.customer);
       if (hiveJson == null) return null;
 
-      final userJson = json.decode(hiveJson);
-      return ModelCustomer.fromJson(userJson);
+      final customerJson = json.decode(hiveJson);
+      return ModelCustomer.fromJson(customerJson);
     } catch (error, st) {
       log(error.toString(), error: error, stackTrace: st);
       return null;
     }
   }
 
-
-  /// for storing User to app
-  Future<void> putUser(ModelCustomer user) async {
-    final hiveJson = user.toJson();
-    final userJson = json.encode(hiveJson);
-    await _box?.put(HiveKey.user, userJson);
+  /// for storingtCustomer to app
+  Future<void> putCustomer(ModelCustomer customer) async {
+    final hiveJson = customer.toJson();
+    final customerJson = json.encode(hiveJson);
+    await _box?.put(HiveKey.customer, customerJson);
   }
 
-  /// for delete User to app
-  Future<void> deleteUser() async {
-    await _box?.delete(HiveKey.user);
+  /// for deletetCustomer to app
+  Future<void> delettCustomer() async {
+    await _box?.delete(HiveKey.customer);
   }
 
   /// for getting string from box
-  String? get getUserToken {
-    return _box?.get(HiveKey.userToken);
+  String? get getCustomerToken {
+    return _box?.get(HiveKey.customerToken);
   }
 
-  /// for storing User to app
-  Future<void> putUserToken(String token) async {
-    await _box?.put(HiveKey.userToken, token);
+  /// for storingtCustomer to app
+  Future<void> putCustomerToken(String token) async {
+    await _box?.put(HiveKey.customerToken, token);
   }
 
   /// for getting string from box
@@ -64,12 +76,12 @@ class HiveService {
     return _box?.get(HiveKey.email);
   }
 
-  /// for storing User to app
+  /// for storingtCustomer to app
   Future<void> putEmail(String token) async {
     await _box?.put(HiveKey.email, token);
   }
 
-  /// for delete User to app
+  /// for deletetCustomer to app
   Future<void> deleteEmail() async {
     await _box?.delete(HiveKey.email);
   }

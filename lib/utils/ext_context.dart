@@ -19,8 +19,11 @@ extension BuildContextExtentions on BuildContext {
   TextStyle get titleSmallBold =>
       xTextTheme.titleSmall!.copyWith(fontWeight: FontWeight.bold);
 
-  void goLogin() {
-    Get.toNamed(Routes.LOGIN);
+  void goLogin({ required String ? arguments}) {
+    Get.toNamed(
+      Routes.LOGIN,
+      arguments: arguments,
+    );
   }
 
   void goSignin() {
@@ -35,10 +38,16 @@ extension BuildContextExtentions on BuildContext {
     Get.toNamed(Routes.LOKASI);
   }
 
-  void goKerangjang({ DataProduct? arguments}) {
+  void goKerangjang({required DataProduct? arguments}) {
     Get.toNamed(
       Routes.KERANJANG,
       arguments: arguments,
+    );
+  }
+
+  void goDasboard() {
+    Get.offAllNamed(
+      Routes.DASHBOARD,
     );
   }
 }

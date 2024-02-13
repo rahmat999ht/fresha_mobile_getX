@@ -14,37 +14,34 @@ class ProductsView extends GetView<ProductsController> {
               subtitle: 'Promo menarik Hari ini untuk Kamu',
               context: context,
             ),
-            if (state != null)
-              Expanded(
-                child: GridView.builder(
-                  padding: const EdgeInsets.all(8.0),
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 1,
-                    childAspectRatio: 1.450,
-                    mainAxisSpacing: 4.0,
-                    crossAxisSpacing: 4.0,
-                  ),
-                  // gridDelegate: CustomGridDelegate(dimension: 150.0),
-                  itemCount: state.data.length,
-                  shrinkWrap: true,
-                  scrollDirection: Axis.horizontal, // The default is vertical.
-                  // reverse: true, // The default is false, going down (or left to right).
-                  itemBuilder: (BuildContext ctx, int index) {
-                    return cardProduct(
-                      index: index,
-                      state: state,
-                      context: context,
-                      onTap: () {
-                        context.goKerangjang(
-                          arguments: state.data[index],
-                        );
-                      },
-                    );
-                  },
+            Expanded(
+              child: GridView.builder(
+                padding: const EdgeInsets.all(8.0),
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 1,
+                  childAspectRatio: 1.500,
+                  mainAxisSpacing: 4.0,
+                  crossAxisSpacing: 4.0,
                 ),
-              )
-            else
-              const EmptyState(),
+                // gridDelegate: CustomGridDelegate(dimension: 150.0),
+                itemCount: state!.data.length,
+                shrinkWrap: true,
+                scrollDirection: Axis.horizontal, // The default is vertical.
+                // reverse: true, // The default is false, going down (or left to right).
+                itemBuilder: (BuildContext ctx, int index) {
+                  return cardProduct(
+                    index: index,
+                    state: state,
+                    context: context,
+                    onTap: () {
+                      context.goKerangjang(
+                        arguments: state.data[index],
+                      );
+                    },
+                  );
+                },
+              ),
+            ),
           ],
         ),
       ),
@@ -124,10 +121,18 @@ class ProductsView extends GetView<ProductsController> {
                 dataProduct.name,
                 style: context.textTheme.titleMedium,
               ),
-              const Text('1kg'),
-              Text(
-                'Rp. ${dataProduct.price}',
-                style: context.labelMediumBold,
+              const Spacer(),
+              RichText(
+                text: TextSpan(
+                  text: 'Rp. ${dataProduct.price}',
+                  style: context.labelMediumBold,
+                  children: [
+                    TextSpan(
+                      text: ' /1kg',
+                      style: context.textTheme.titleMedium,
+                    ),
+                  ],
+                ),
               ),
             ],
           ),
