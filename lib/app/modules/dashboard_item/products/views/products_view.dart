@@ -19,7 +19,7 @@ class ProductsView extends GetView<ProductsController> {
                 padding: const EdgeInsets.all(8.0),
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 1,
-                  childAspectRatio: 1.500,
+                  childAspectRatio: 1.530,
                   mainAxisSpacing: 4.0,
                   crossAxisSpacing: 4.0,
                 ),
@@ -111,8 +111,8 @@ class ProductsView extends GetView<ProductsController> {
                 margin: const EdgeInsets.all(0),
                 child: Image.network(
                   dataProduct.image,
-                  // height: context.height * 0.17,
-                  // width: context.height * 0.17,
+                  height: context.height * 0.19,
+                  width: context.height * 0.19,
                   fit: BoxFit.cover,
                 ),
               ),

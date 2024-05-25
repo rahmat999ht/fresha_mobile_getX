@@ -34,7 +34,8 @@ class LoginController extends GetxController {
     if (formkey.currentState!.validate()) {
       loadingState();
       await authProvider.login(cFormEmail.text);
-      context.goDasboard();
+      await Get.toNamed(Routes.DASHBOARD);
+      // context.goDasboard();
       loadingState();
     }
   }

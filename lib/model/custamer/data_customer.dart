@@ -1,4 +1,9 @@
 
+import 'dart:convert';
+
+DataCustomer dataCustomerFromJson(String str) => DataCustomer.fromJson(json.decode(str));
+
+
 class DataCustomer {
   String id;
   dynamic name;
