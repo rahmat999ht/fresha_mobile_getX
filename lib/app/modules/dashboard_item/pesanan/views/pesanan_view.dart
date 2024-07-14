@@ -39,7 +39,7 @@ class PesananView extends GetView<PesananController> {
   }
 
   Widget bodySelesai({
-    required ModelOrders state,
+    required ModelResponseOrderByCustamer state,
     required BuildContext context,
   }) {
     final initData =
@@ -59,7 +59,7 @@ class PesananView extends GetView<PesananController> {
   }
 
   Widget bodyDiProses({
-    required ModelOrders state,
+    required ModelResponseOrderByCustamer state,
     required BuildContext context,
   }) {
     final initData =
@@ -137,7 +137,7 @@ class PesananView extends GetView<PesananController> {
 
   Container cardOrder({
     required BuildContext context,
-    required DataOrder dataOrder,
+    required DataOrderByCustamer dataOrder,
   }) {
     return Container(
       width: context.width,
@@ -155,57 +155,46 @@ class PesananView extends GetView<PesananController> {
           ],
         ),
       ),
-      child: FutureBuilder(
-        future: controller.productProvider.fetchIdProducts(dataOrder.id),
-        builder: (context, snap) {
-          if (snap.connectionState == ConnectionState.none ||
-              snap.data == null) {
-            return const EmptyState();
-          }
-          if (snap.connectionState == ConnectionState.waiting) {
-            return const LoadingState();
-          }
-          final data = snap.data!.data;
-          return Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          ...dataOrder.listProduct.map(
+            (e) => Card(
+              child: Image.network(
+                e.product.image,
+                height: context.height * 0.1,
+                width: context.height * 0.1,
+                fit: BoxFit.cover,
+              ),
+            ),
+          ),
+          const Gap(8),
+          Column(
             mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Card(
-                child: Image.network(
-                  data.image,
-                  height: context.height * 0.1,
-                  width: context.height * 0.1,
-                  fit: BoxFit.cover,
-                ),
+              Text(
+                dataOrder.orderById,
+                style: context.textTheme.titleMedium,
               ),
-              const Gap(8),
-              Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    data.name,
-                    style: context.textTheme.titleMedium,
-                  ),
-                  const Text('1kg'),
-                  Text(
-                    'Rp. ${data.price}',
-                    style: context.labelMediumBold,
-                  ),
-                ],
-              ),
-              const Spacer(),
-              ElevatedButton(
-                onPressed: () {
-                  context.goKerangjang(
-                    arguments: data,
-                  );
-                },
-                child: const Text("Pesan Lagi"),
+              const Text('1kg'),
+              Text(
+                'Rp. ${dataOrder.totBuy}',
+                style: context.labelMediumBold,
               ),
             ],
-          );
-        },
+          ),
+          const Spacer(),
+          ElevatedButton(
+            onPressed: () {
+              // context.goKerangjang(
+              //   arguments: dataOrder.listProduct.first,
+              // );
+            },
+            child: const Text("Pesan Lagi"),
+          ),
+        ],
       ),
     );
   }

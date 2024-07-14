@@ -8,6 +8,7 @@ import '../core.dart';
 class OrderProvider extends GetConnect {
   // baseUrl
   final String baseURL = dotenv.get(KeysEnpoint.baseUrl);
+  final PrefService _prefService = PrefService();
 
   Future<ModelResponseOrderId> fetchIdOrder(String id) async {
     try {
@@ -50,17 +51,18 @@ class OrderProvider extends GetConnect {
     }
   }
 
-  Future<ModelOrders> fetchOrder() async {
+  Future<ModelResponseOrderByCustamer> fetchOrderByIdCustamer(
+      String idCustamer) async {
     try {
-      const String urlProduct = KeysEnpoint.orders;
-      log(urlProduct, name: "data url Product");
-      final response = await get(urlProduct);
+      const String urlOrder = KeysEnpoint.orders;
+      log(urlOrder, name: "data url Product");
+      final response = await get('$urlOrder?id_cus=$idCustamer');
       if (response.status.hasError) {
         log(response.toString(), name: 'data error');
         return Future.error(response);
       } else {
         // log(response.bodyString!, name: 'data response');
-        return modelOrdersFromJson(response.bodyString!);
+        return modelResponseOrderByCustamerFromJson(response.bodyString!);
       }
     } catch (error) {
       log(error.toString(), name: "data error");
@@ -71,8 +73,7 @@ class OrderProvider extends GetConnect {
   @override
   void onInit() {
     httpClient.addRequestModifier<dynamic>((request) {
-      const token =
-          'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImNsc2VyY3BncDAwMDExMW5iNm04czlpcHQiLCJuYW1lIjpudWxsLCJlbWFpbCI6InJhaG1hdDk5OWh0QGdtYWlsLmNvbSIsInBob25lIjpudWxsLCJhZGRyZXNzIjpudWxsLCJlbWFpbFZlcmlmaWVkIjpudWxsLCJpbWFnZSI6bnVsbCwiaWF0IjoxNzA3NDg5ODM0LCJleHAiOjE3MDc3NDkwMzR9.FCJuXOkv3So2DWFf1WkPMSQHpytGx-98JrxiQW19-74';
+      final token = _prefService.getUserToken;
       request.headers['Authorization'] = "Bearer $token";
       return request;
     });

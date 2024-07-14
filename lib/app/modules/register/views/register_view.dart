@@ -142,7 +142,7 @@ class RegisterView extends GetView<RegisterController> {
               vertical: 0,
             ),
             disabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(8),
+              borderRadius: BorderRadius.circular(10),
               borderSide: BorderSide(
                 color: context.colorScheme.primary.withOpacity(0.7),
               ),

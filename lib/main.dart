@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:firebase_core/firebase_core.dart';
 import 'package:fresha_mobile/core.dart';
 import 'package:fresha_mobile/firebase_options.dart';
@@ -12,6 +14,7 @@ Future main() async {
   await prefService.prefInit();
   EasyLoading.init();
   var initialRoute = Routes.DASHBOARD;
+  log(prefService.getIdCustomer.toString(), name: "idCus Login");
 
   runApp(FutureBuilder(
     future: Future.delayed(const Duration(seconds: 3)),

@@ -2,22 +2,25 @@ import 'dart:developer';
 
 import '../../../../../core.dart';
 
-class PesananController extends GetxController with StateMixin<ModelOrders> {
+class PesananController extends GetxController
+    with StateMixin<ModelResponseOrderByCustamer> {
   final OrderProvider orderProvider;
-  final ProductProvider productProvider;
+  final PrefService prefService;
   PesananController({
     required this.orderProvider,
-    required this.productProvider,
+    required this.prefService,
   });
 
   @override
   void onInit() {
-    findAllProduct();
+    if (prefService.getIdCustomer != null) {
+      findAllProduct(prefService.getIdCustomer.toString());
+    }
     super.onInit();
   }
 
-  Future findAllProduct() async {
-    orderProvider.fetchOrder().then((result) {
+  Future findAllProduct(String idCustamer) async {
+    orderProvider.fetchOrderByIdCustamer(idCustamer).then((result) {
       if (result.code == 200) {
         // log(result.toString(), name: 'data model');
         change(result, status: RxStatus.success());

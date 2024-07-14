@@ -15,7 +15,7 @@ String modelResponseOrderByCustamerToJson(ModelResponseOrderByCustamer data) =>
 class ModelResponseOrderByCustamer {
   int code;
   String status;
-  List<Datum> data;
+  List<DataOrderByCustamer> data;
 
   ModelResponseOrderByCustamer({
     required this.code,
@@ -27,7 +27,8 @@ class ModelResponseOrderByCustamer {
       ModelResponseOrderByCustamer(
         code: json["code"],
         status: json["status"],
-        data: List<Datum>.from(json["data"].map((x) => Datum.fromJson(x))),
+        data: List<DataOrderByCustamer>.from(
+            json["data"].map((x) => DataOrderByCustamer.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
@@ -37,7 +38,7 @@ class ModelResponseOrderByCustamer {
       };
 }
 
-class Datum {
+class DataOrderByCustamer {
   String id;
   String status;
   int totBuy;
@@ -46,7 +47,7 @@ class Datum {
   String orderById;
   List<ListProductCustamer> listProduct;
 
-  Datum({
+  DataOrderByCustamer({
     required this.id,
     required this.status,
     required this.totBuy,
@@ -56,7 +57,8 @@ class Datum {
     required this.listProduct,
   });
 
-  factory Datum.fromJson(Map<String, dynamic> json) => Datum(
+  factory DataOrderByCustamer.fromJson(Map<String, dynamic> json) =>
+      DataOrderByCustamer(
         id: json["id"],
         status: json["status"],
         totBuy: json["totBuy"],

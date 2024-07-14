@@ -32,11 +32,11 @@ class HomeView extends GetView<HomeController> {
                 stateController: selectedIndex,
                 selectedIndex: selectedIndex.value,
               ),
-              const Gap(16),
-              // if(controller.isLogin.isTrue)
-              cardDaftarAkun(
-                onTapLogin: context.goWelcome,
-              ),
+              if (controller.isLogin.isTrue) const Gap(16),
+              if (controller.isLogin.isTrue)
+                cardDaftarAkun(
+                  onTapLogin: context.goWelcome,
+                ),
               const Gap(16),
               const SizedBox(
                 height: 330,
