@@ -1,9 +1,7 @@
 import '/../core.dart';
 
 class LoadingState extends StatelessWidget {
-  const LoadingState({
-    Key? key,
-  }) : super(key: key);
+  const LoadingState({super.key});
 
   @override
   Widget build(BuildContext context) {

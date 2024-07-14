@@ -1,4 +1,4 @@
-package yayat.tech.fresha_mobile
+package com.example.fresha_mobile
 
 import io.flutter.embedding.android.FlutterActivity
 

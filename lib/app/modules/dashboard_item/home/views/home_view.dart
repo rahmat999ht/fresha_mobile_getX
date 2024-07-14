@@ -3,7 +3,7 @@ import '../../products/views/products_view.dart';
 import '../controllers/home_controller.dart';
 
 class HomeView extends GetView<HomeController> {
-  const HomeView({Key? key}) : super(key: key);
+  const HomeView({super.key});
   @override
   Widget build(BuildContext context) {
     final titleMedium = context.textTheme.titleMedium!;
@@ -22,27 +22,28 @@ class HomeView extends GetView<HomeController> {
         onTapTitle: context.goPilihLokasi,
       ),
       body: SingleChildScrollView(
-        child: Column(
-          children: [
-            Obx(
-              () => contentSwip(
+        child: Obx(
+          () => Column(
+            children: [
+              contentSwip(
                 color: color,
                 size: size,
                 swiperC: controller.swiperC,
                 stateController: selectedIndex,
                 selectedIndex: selectedIndex.value,
               ),
-            ),
-            const Gap(16),
-            cardDaftarAkun(
-              onTapLogin: context.goWelcome,
-            ),
-            const Gap(16),
-            const SizedBox(
-              height: 330,
-              child: ProductsView(),
-            ),
-          ],
+              const Gap(16),
+              // if(controller.isLogin.isTrue)
+              cardDaftarAkun(
+                onTapLogin: context.goWelcome,
+              ),
+              const Gap(16),
+              const SizedBox(
+                height: 330,
+                child: ProductsView(),
+              ),
+            ],
+          ),
         ),
       ),
     );

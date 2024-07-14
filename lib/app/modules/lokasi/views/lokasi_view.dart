@@ -5,7 +5,7 @@ import 'package:get/get.dart';
 import '../controllers/lokasi_controller.dart';
 
 class LokasiView extends GetView<LokasiController> {
-  const LokasiView({Key? key}) : super(key: key);
+  const LokasiView({super.key});
   @override
   Widget build(BuildContext context) {
     return Scaffold(

@@ -1,11 +1,18 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:fresha_mobile/core.dart';
+import 'package:fresha_mobile/firebase_options.dart';
 
 Future main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   await dotenv.load(fileName: '.env');
+  final PrefService prefService = PrefService();
+  await prefService.prefInit();
   EasyLoading.init();
-  HiveService hiveService = HiveService();
-  hiveService.hiveInit();
   var initialRoute = Routes.DASHBOARD;
+
   runApp(FutureBuilder(
     future: Future.delayed(const Duration(seconds: 3)),
     builder: (context, s) {

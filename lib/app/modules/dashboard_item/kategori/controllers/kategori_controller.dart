@@ -21,13 +21,13 @@ class KategoriController extends GetxController
 
   Future onChangeFilter({required String filter}) async {
     if (filter == 'All') {
-     await findAllProduct();
+      await findAllProduct();
     }
     final onFilter = listProduct.where((e) => e.category == filter).toList();
     change(onFilter, status: RxStatus.success());
   }
 
-  void onChangeSearch({required String search}){
+  void onChangeSearch({required String search}) {
     final onSearch = listProduct.where((e) => e.name == search).toList();
     change(onSearch, status: RxStatus.success());
   }
@@ -35,7 +35,7 @@ class KategoriController extends GetxController
   Future findAllProduct() async {
     productProvider.fetchProducts().then((result) {
       if (result.code == 200) {
-        log(result.toString(), name: 'data model');
+        // log(result.toString(), name: 'data model');
         for (var e in result.data) {
           listKategori.add(e.category);
         }

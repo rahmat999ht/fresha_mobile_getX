@@ -2,7 +2,7 @@ import '../../../../core.dart';
 import '../controllers/keranjang_controller.dart';
 
 class KeranjangView extends GetView<KeranjangController> {
-  const KeranjangView({Key? key}) : super(key: key);
+  const KeranjangView({super.key});
   @override
   Widget build(BuildContext context) {
     return Scaffold(

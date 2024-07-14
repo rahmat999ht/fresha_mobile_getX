@@ -1,64 +1,73 @@
 import 'dart:developer';
 
+import 'package:firebase_auth/firebase_auth.dart';
+
 import '../core.dart';
 
 class AuthProvider extends GetConnect {
   final String baseURL = dotenv.get(KeysEnpoint.baseUrl);
 
-  Future<Response<ModelResponseLogin>> login(String email) {
+  Future<ModelResponseLogin> login(ModelLoginRequest request) async {
     try {
       const String urlLogin = KeysEnpoint.login;
-      log(urlLogin, name: "data url Product");
-      final request = ModelUserRequest(email: email);
-      return post(
+      log(urlLogin, name: "url login");
+      final response = await post(
         KeysEnpoint.login,
         request.toJson(),
-      ).then((response) {
-        log(response.bodyString!, name: 'data response login');
-        // Convert JSON map to model
-        HiveService hiveService = HiveService();
-        final dataLogin = modelResponseLoginFromJson(response.bodyString!);
-        hiveService.putIdCustomer(dataLogin.data.customer.id);
-        hiveService.putEmail(dataLogin.data.customer.email);
-        hiveService.putCustomerToken(dataLogin.data.token);
-        return Response(
-          body: modelResponseLoginFromJson(response.bodyString!),
-        );
-      }).onError(
-        (error, stackTrace) => Future.error('$error $stackTrace'),
       );
+      if (response.status.hasError) {
+        final error = userResponseErrorFromJson(response.bodyString!);
+        Get.defaultDialog(
+          title: "info",
+          middleText: error.errors.toString(),
+        );
+        log(error.toString(), name: 'error response');
+        return Future.error('$response');
+      } else {
+        final dataLogin = modelResponseLoginFromJson(response.bodyString!);
+        return dataLogin;
+      }
     } catch (error) {
       log(error.toString(), name: "data error");
       throw 'Error getting login: $error';
     }
-    // final request = ModelUserRequest(email: email);
-    // return post(
-    //   KeysEnpoint.login,
-    //   request.toJson(),
-    // ).then((response) {
-    //   // Convert JSON map to model
-    //   return Response(
-    //     body: modelResponseLoginFromJson(response.bodyString!),
-    //   );
-    // }).onError(
-    //   (error, stackTrace) => Future.error('$error $stackTrace'),
-    // );
   }
 
-  Future<Response<ModelResponseRegister>> register(String email) {
-    final request = ModelUserRequest(email: email);
-    return post(
-      KeysEnpoint.register,
-      request.toJson(),
-    ).then((response) {
-      log(response.bodyString!, name: 'data response regis');
-      // Convert JSON map to model
-      return Response(
-        body: modelResponseRegisterFromJson(response.bodyString!),
+  Future<ModelResponseRegister> register(ModelRegisterRequest request) async {
+    try {
+      final response = await post(
+        KeysEnpoint.register,
+        request.toJson(),
       );
-    }).onError(
-      (error, stackTrace) => Future.error('$error $stackTrace'),
+      if (response.status.hasError) {
+        final error = userResponseErrorFromJson(response.bodyString!);
+        Get.defaultDialog(
+          title: "info",
+          middleText: error.errors.toString(),
+        );
+        log(error.toString(), name: 'error response');
+        return Future.error('$response');
+      } else {
+        final dataRegis = modelResponseRegisterFromJson(response.bodyString!);
+        return dataRegis;
+      }
+    } catch (error) {
+      log(error.toString(), name: "data error");
+      throw 'Error getting register: $error';
+    }
+  }
+
+  Future<String> signInWithGoogle() async {
+    final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+    final GoogleSignInAuthentication? googleAuth =
+        await googleUser?.authentication;
+    GoogleAuthProvider.credential(
+      accessToken: googleAuth?.accessToken,
+      idToken: googleAuth?.idToken,
     );
+    final email = googleUser!.email.toString();
+    log(email, name: 'email');
+    return email;
   }
 
   @override

@@ -1,13 +1,15 @@
 import 'dart:async';
 import 'dart:developer';
 
+import 'package:fresha_mobile/model/order/form_post_order.dart';
+
 import '../core.dart';
 
 class OrderProvider extends GetConnect {
   // baseUrl
   final String baseURL = dotenv.get(KeysEnpoint.baseUrl);
 
-  Future<ModelOrderById> fetchIdOrder(String id) async {
+  Future<ModelResponseOrderId> fetchIdOrder(String id) async {
     try {
       final String urlProduct = '${KeysEnpoint.orders}/$id';
       log(urlProduct, name: "data url Product");
@@ -16,8 +18,8 @@ class OrderProvider extends GetConnect {
         log(response.toString(), name: 'data error');
         return Future.error(response);
       } else {
-        log(response.bodyString!, name: 'data response');
-        return modelOrderByIdFromJson(response.bodyString!);
+        // log(response.bodyString!, name: 'data response');
+        return modelResponseOrderIdFromJson(response.bodyString!);
       }
     } catch (error) {
       log(error.toString(), name: "data error");
@@ -26,9 +28,9 @@ class OrderProvider extends GetConnect {
   }
 
   // Post request
-  Future<Response> postOrder(ModelProduct model) => post(
+  Future<Response> postOrder(FormOrderPost input) => post(
         KeysEnpoint.orders,
-        model.data,
+        input,
       );
   // Get request Product
   Future getOrderPage(int page) async {
@@ -57,7 +59,7 @@ class OrderProvider extends GetConnect {
         log(response.toString(), name: 'data error');
         return Future.error(response);
       } else {
-        log(response.bodyString!, name: 'data response');
+        // log(response.bodyString!, name: 'data response');
         return modelOrdersFromJson(response.bodyString!);
       }
     } catch (error) {

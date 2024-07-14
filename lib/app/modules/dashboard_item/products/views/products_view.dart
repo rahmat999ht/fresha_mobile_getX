@@ -2,48 +2,46 @@ import '../../../../../core.dart';
 import '../controllers/products_controller.dart';
 
 class ProductsView extends GetView<ProductsController> {
-  const ProductsView({Key? key}) : super(key: key);
+  const ProductsView({super.key});
   @override
   Widget build(BuildContext context) {
     return controller.obx(
-      (state) => Expanded(
-        child: Column(
-          children: [
-            headerRekomendasiProduct(
-              title: 'Spesial Hari ini',
-              subtitle: 'Promo menarik Hari ini untuk Kamu',
-              context: context,
-            ),
-            Expanded(
-              child: GridView.builder(
-                padding: const EdgeInsets.all(8.0),
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 1,
-                  childAspectRatio: 1.530,
-                  mainAxisSpacing: 4.0,
-                  crossAxisSpacing: 4.0,
-                ),
-                // gridDelegate: CustomGridDelegate(dimension: 150.0),
-                itemCount: state!.data.length,
-                shrinkWrap: true,
-                scrollDirection: Axis.horizontal, // The default is vertical.
-                // reverse: true, // The default is false, going down (or left to right).
-                itemBuilder: (BuildContext ctx, int index) {
-                  return cardProduct(
-                    index: index,
-                    state: state,
-                    context: context,
-                    onTap: () {
-                      context.goKerangjang(
-                        arguments: state.data[index],
-                      );
-                    },
-                  );
-                },
+      (state) => Column(
+        children: [
+          headerRekomendasiProduct(
+            title: 'Spesial Hari ini',
+            subtitle: 'Promo menarik Hari ini untuk Kamu',
+            context: context,
+          ),
+          Expanded(
+            child: GridView.builder(
+              padding: const EdgeInsets.all(8.0),
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 1,
+                childAspectRatio: 1.530,
+                mainAxisSpacing: 4.0,
+                crossAxisSpacing: 4.0,
               ),
+              // gridDelegate: CustomGridDelegate(dimension: 150.0),
+              itemCount: state!.data.length,
+              shrinkWrap: true,
+              scrollDirection: Axis.horizontal, // The default is vertical.
+              // reverse: true, // The default is false, going down (or left to right).
+              itemBuilder: (BuildContext ctx, int index) {
+                return cardProduct(
+                  index: index,
+                  state: state,
+                  context: context,
+                  onTap: () {
+                    context.goKerangjang(
+                      arguments: state.data[index],
+                    );
+                  },
+                );
+              },
             ),
-          ],
-        ),
+          ),
+        ],
       ),
       onLoading: const LoadingState(),
       onError: (error) => ErrorState(error: error.toString()),

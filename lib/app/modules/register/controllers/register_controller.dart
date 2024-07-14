@@ -5,30 +5,75 @@ import '../../../../core.dart';
 
 class RegisterController extends GetxController {
   final AuthProvider authProvider;
-  // final HiveService hiveService;
   RegisterController({
     required this.authProvider,
-    // required this.hiveService,
   });
 
   final formkey = GlobalKey<FormState>();
 
   final cFormEmail = TextEditingController();
+  final cFormName = TextEditingController();
   final isLoading = false.obs;
+  var isEmailMessage = ''.obs;
+  var isNameMessage = ''.obs;
 
-  void loadingState() {
-    isLoading.value = !isLoading.value;
+  void setFormEmail(String value) => cFormEmail.text = value;
+
+  void loadingState() => isLoading.value = !isLoading.value;
+
+  Future popUpGoogleAkun() async {
+    final email = await authProvider.signInWithGoogle();
+    setFormEmail(email);
+    log(cFormEmail.text, name: 'cformEmail');
   }
 
-  Future register({required BuildContext context}) async {
-    if (formkey.currentState!.validate()) {
+  bool nullValidation(String? value) {
+    if (value == null || value.trim().isEmpty) {
+      return true;
+    }
+    return false;
+  }
+
+  String _validateEmail(String email) {
+    if (nullValidation(email)) {
+      return isEmailMessage.value = 'Email harap di isi';
+    }
+    // Regex untuk validasi email
+    String pattern = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$';
+    RegExp regex = RegExp(pattern);
+    if (!regex.hasMatch(email)) {
+      return isEmailMessage.value = 'Format email tidak valid';
+    }
+    return isEmailMessage.value = '';
+  }
+
+  String _validatenName(String name) {
+    if (nullValidation(name)) {
+      return isNameMessage.value = 'Name harap di isi';
+    }
+    return isEmailMessage.value = '';
+  }
+
+  Future register() async {
+    _validatenName(cFormName.text);
+    _validateEmail(cFormEmail.text);
+    if (isEmailMessage.value.isEmpty && isNameMessage.value.isEmpty) {
       loadingState();
-      authProvider.register(cFormEmail.text).then((value) {
-        log(value.body.toString(), name: 'bodi regis');
-        context.goLogin(arguments: cFormEmail.text);
+      final request = ModelRegisterRequest(
+        name: cFormName.text,
+        email: cFormEmail.text,
+      );
+      final response = await authProvider.register(request);
+      if (response.code == 200) {
+        log(response.data.toString(), name: 'bodi regis');
         cFormEmail.clear();
+        cFormName.clear();
         loadingState();
-      });
+        Get.toNamed(
+          Routes.LOGIN,
+          arguments: response.data.email,
+        );
+      }
     }
   }
 }

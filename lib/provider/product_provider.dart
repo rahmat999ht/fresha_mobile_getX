@@ -5,7 +5,7 @@ import '../core.dart';
 class ProductProvider extends GetConnect {
   // baseUrl
   final String baseURL = dotenv.get(KeysEnpoint.baseUrl);
- 
+
   Future<ModelProductById> fetchIdProducts(String id) async {
     try {
       final String urlProduct = '${KeysEnpoint.products}/$id';
@@ -15,7 +15,7 @@ class ProductProvider extends GetConnect {
         log(response.toString(), name: 'data error');
         return Future.error(response);
       } else {
-        log(response.bodyString!, name: 'data response');
+        // log(response.bodyString!, name: 'data response');
         return modelProductByIdFromJson(response.bodyString!);
       }
     } catch (error) {
@@ -51,7 +51,7 @@ class ProductProvider extends GetConnect {
         log(response.toString(), name: 'data error');
         return Future.error(response);
       } else {
-        log(response.bodyString!, name: 'data response');
+        // log(response.bodyString!, name: 'data response');
         return modelProductFromJson(response.bodyString!);
       }
     } catch (error) {

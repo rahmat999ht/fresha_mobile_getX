@@ -15,7 +15,7 @@ class ProductsController extends GetxController with StateMixin<ModelProduct> {
   Future findAllProduct() async {
     productProvider.fetchProducts().then((result) {
       if (result.code == 200) {
-        log(result.toString(), name: 'data model');
+        // log(result.toString(), name: 'data model');
         change(result, status: RxStatus.success());
       } else {
         log('kosong', name: 'data kosong');

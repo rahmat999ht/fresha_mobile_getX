@@ -2,10 +2,10 @@ import '../../../../../core.dart';
 import '../controllers/akun_controller.dart';
 
 class AkunView extends GetView<AkunController> {
-  const AkunView({Key? key}) : super(key: key);
+  const AkunView({super.key});
   @override
   Widget build(BuildContext context) {
-      final color = context.colorScheme;
+    final color = context.colorScheme;
     final size = context.deviceSize;
     final titleMedium = context.textTheme.titleMedium!;
     final titleMediumBold = context.titleMediumBold;
@@ -24,7 +24,7 @@ class AkunView extends GetView<AkunController> {
             color: color,
             titleMediumBold: titleMediumBold,
             titleMedium: titleMedium,
-            onTap: (){},
+            onTap: () {},
           ),
           const Gap(30),
           cardAkun(

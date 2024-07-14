@@ -2,7 +2,7 @@ import '../../../../../core.dart';
 import '../controllers/kategori_controller.dart';
 
 class KategoriView extends GetView<KategoriController> {
-  const KategoriView({Key? key}) : super(key: key);
+  const KategoriView({super.key});
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -38,18 +38,17 @@ class KategoriView extends GetView<KategoriController> {
         child: Row(
           children: [
             const Gap(12),
-            ...controller.listKategori
-              .map(
-                (element) => Padding(
-                  padding: const EdgeInsets.only(top: 4, left: 4, bottom: 4),
-                  child: OutlinedButton(
-                    onPressed: () async {
-                      await controller.onChangeFilter(filter: element);
-                    },
-                    child: Text(element),
-                  ),
+            ...controller.listKategori.map(
+              (element) => Padding(
+                padding: const EdgeInsets.only(top: 4, left: 4, bottom: 4),
+                child: OutlinedButton(
+                  onPressed: () async {
+                    await controller.onChangeFilter(filter: element);
+                  },
+                  child: Text(element),
                 ),
-              )
+              ),
+            )
           ],
         ),
       ),
@@ -66,7 +65,9 @@ class KategoriView extends GetView<KategoriController> {
           if (state != null)
             Expanded(
               child: GridView.builder(
-                padding: const EdgeInsets.symmetric(horizontal: 12, ),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 12,
+                ),
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 3,
                   childAspectRatio: 0.500,

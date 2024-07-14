@@ -8,12 +8,12 @@ class LoginBinding extends Bindings {
       () => AuthProvider(),
     );
     Get.lazyPut(
-      () => HiveService(),
+      () => PrefService(),
     );
     Get.put<LoginController>(
       LoginController(
         authProvider: Get.find(),
-        hiveService: Get.find(),
+        prefService: Get.find(),
       ),
     );
   }

@@ -2,7 +2,7 @@ import '../../../../../core.dart';
 import '../controllers/pesanan_controller.dart';
 
 class PesananView extends GetView<PesananController> {
-  const PesananView({Key? key}) : super(key: key);
+  const PesananView({super.key});
   @override
   Widget build(BuildContext context) {
     final color = context.colorScheme;
@@ -156,7 +156,7 @@ class PesananView extends GetView<PesananController> {
         ),
       ),
       child: FutureBuilder(
-        future: controller.productProvider.fetchIdProducts(dataOrder.productId),
+        future: controller.productProvider.fetchIdProducts(dataOrder.id),
         builder: (context, snap) {
           if (snap.connectionState == ConnectionState.none ||
               snap.data == null) {

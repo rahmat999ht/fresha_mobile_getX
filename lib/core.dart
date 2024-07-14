@@ -18,5 +18,4 @@ export 'package:gap/gap.dart';
 export 'package:get/get.dart';
 export 'package:google_fonts/google_fonts.dart';
 export 'package:google_sign_in/google_sign_in.dart';
-export 'package:hive_flutter/hive_flutter.dart';
-
+export 'package:shared_preferences/shared_preferences.dart';

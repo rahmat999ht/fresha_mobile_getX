@@ -59,7 +59,7 @@ class KeranjangController extends GetxController
   Future findAllProduct() async {
     productProvider.fetchProducts().then((result) {
       if (result.code == 200) {
-        log(result.toString(), name: 'data model');
+        // log(result.toString(), name: 'data model');
         change(result.data, status: RxStatus.success());
       } else {
         log('kosong', name: 'data kosong');

@@ -11,6 +11,9 @@ class DashboardBinding extends Bindings {
   @override
   void dependencies() {
     Get.lazyPut(
+      () => PrefService(),
+    );
+    Get.lazyPut(
       () => ProductProvider(),
     );
     Get.lazyPut(
@@ -23,7 +26,9 @@ class DashboardBinding extends Bindings {
       () => DashboardController(),
     );
     Get.lazyPut<HomeController>(
-      () => HomeController(),
+      () => HomeController(
+        prefService: Get.find(),
+      ),
     );
     Get.put<KategoriController>(
       KategoriController(

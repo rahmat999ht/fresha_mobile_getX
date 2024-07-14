@@ -7,13 +7,13 @@ class ButtonNavBar extends StatelessWidget {
   final String label;
   final void Function() onTap;
   const ButtonNavBar({
-    Key? key,
+    super.key,
     required this.index,
     required this.selectedIndex,
     required this.icon,
     required this.label,
     required this.onTap,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
