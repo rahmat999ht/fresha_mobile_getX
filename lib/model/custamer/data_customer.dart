@@ -4,13 +4,13 @@ DataCustomer dataCustomerFromJson(String str) =>
     DataCustomer.fromJson(json.decode(str));
 
 class DataCustomer {
-  String id;
-  dynamic name;
-  String email;
-  dynamic phone;
-  dynamic address;
-  dynamic emailVerified;
-  dynamic image;
+  final String id;
+  final String name;
+  final String email;
+  final String? phone;
+  final String? address;
+  final DateTime? emailVerified;
+  final String? image;
 
   DataCustomer({
     required this.id,

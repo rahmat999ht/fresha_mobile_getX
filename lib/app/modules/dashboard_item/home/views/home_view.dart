@@ -32,8 +32,8 @@ class HomeView extends GetView<HomeController> {
                 stateController: selectedIndex,
                 selectedIndex: selectedIndex.value,
               ),
-              if (controller.isLogin.isTrue) const Gap(16),
-              if (controller.isLogin.isTrue)
+              if (controller.isLogin.isFalse) const Gap(16),
+              if (controller.isLogin.isFalse)
                 cardDaftarAkun(
                   onTapLogin: context.goWelcome,
                 ),

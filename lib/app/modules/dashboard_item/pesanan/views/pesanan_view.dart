@@ -3,6 +3,7 @@ import '../controllers/pesanan_controller.dart';
 
 class PesananView extends GetView<PesananController> {
   const PesananView({super.key});
+
   @override
   Widget build(BuildContext context) {
     final color = context.colorScheme;
@@ -32,18 +33,18 @@ class PesananView extends GetView<PesananController> {
           ),
           onLoading: const LoadingState(),
           onError: (error) => ErrorState(error: error.toString()),
-          onEmpty: const EmptyState(),
+          onEmpty: keranjangKosong(context: context),
         ),
       ),
     );
   }
 
   Widget bodySelesai({
-    required ModelResponseOrderByCustamer state,
+    required List<DataOrderByCustamer> state,
     required BuildContext context,
   }) {
     final initData =
-        state.data.where((element) => element.status == 'selesai').toList();
+        state.where((element) => element.status == 'done').toList();
 
     if (initData.isEmpty) {
       return keranjangKosong(context: context);
@@ -59,11 +60,11 @@ class PesananView extends GetView<PesananController> {
   }
 
   Widget bodyDiProses({
-    required ModelResponseOrderByCustamer state,
+    required List<DataOrderByCustamer> state,
     required BuildContext context,
   }) {
     final initData =
-        state.data.where((element) => element.status == 'diproses').toList();
+        state.where((element) => element.status == 'processed').toList();
 
     if (initData.isEmpty) {
       return keranjangKosong(context: context);

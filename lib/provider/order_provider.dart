@@ -72,6 +72,7 @@ class OrderProvider extends GetConnect {
 
   @override
   void onInit() {
+    _prefService.prefInit();
     httpClient.addRequestModifier<dynamic>((request) {
       final token = _prefService.getUserToken;
       request.headers['Authorization'] = "Bearer $token";

@@ -14,13 +14,13 @@ class HomeController extends GetxController {
   final searchC = TextEditingController();
   final swiperC = SwiperController();
   @override
-  void onInit() {
+  void onReady() async {
+    await prefService.prefInit();
     selectedIndex.value = 0;
     if (prefService.getIdCustomer != null) {
       log(prefService.getIdCustomer.toString(), name: "idCus Login");
       isLogin.value = true;
     }
-
-    super.onInit();
+    super.onReady();
   }
 }

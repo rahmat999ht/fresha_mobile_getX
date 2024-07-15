@@ -3,6 +3,7 @@ import '../controllers/akun_controller.dart';
 
 class AkunView extends GetView<AkunController> {
   const AkunView({super.key});
+
   @override
   Widget build(BuildContext context) {
     final color = context.colorScheme;
@@ -16,31 +17,39 @@ class AkunView extends GetView<AkunController> {
         title: KeysNavBar.akun,
         context: context,
       ),
-      body: Column(
-        children: [
-          headerAkun(
-            name: 'nama',
-            size: size,
-            color: color,
-            titleMediumBold: titleMediumBold,
-            titleMedium: titleMedium,
-            onTap: () {},
-          ),
-          const Gap(30),
-          cardAkun(
-            title: 'Daftar Alamat Saya',
-            icons: Icons.location_on_outlined,
-            color: color,
-            titleMedium: titleMedium,
-          ),
-          const Gap(4),
-          cardAkun(
-            title: 'Pengaturan Akun',
-            icons: Icons.settings,
-            color: color,
-            titleMedium: titleMedium,
-          ),
-        ],
+      body: controller.obx(
+        (state) => (controller.isLogin.isFalse)
+            ? belumLogin(context: context)
+            : Column(
+                children: [
+                  headerAkun(
+                    name: state?.name ?? "kosong",
+                    imageUrl: state?.image,
+                    size: size,
+                    color: color,
+                    titleMediumBold: titleMediumBold,
+                    titleMedium: titleMedium,
+                    onTap: () {},
+                  ),
+                  const Gap(30),
+                  cardAkun(
+                    title: 'Daftar Alamat Saya',
+                    icons: Icons.location_on_outlined,
+                    color: color,
+                    titleMedium: titleMedium,
+                  ),
+                  const Gap(4),
+                  cardAkun(
+                    title: 'Pengaturan Akun',
+                    icons: Icons.settings,
+                    color: color,
+                    titleMedium: titleMedium,
+                  ),
+                ],
+              ),
+        onLoading: const LoadingState(),
+        onError: (error) => ErrorState(error: error.toString()),
+        onEmpty: belumLogin(context: context),
       ),
     );
   }
@@ -74,6 +83,7 @@ class AkunView extends GetView<AkunController> {
 
   Container headerAkun({
     required String name,
+    required String? imageUrl,
     required Size size,
     required ColorScheme color,
     required TextStyle titleMediumBold,
@@ -91,14 +101,20 @@ class AkunView extends GetView<AkunController> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          ClipRRect(
-            borderRadius: BorderRadius.circular(30),
-            child: Image.network(
-              'https://i0.wp.com/fahum.umsu.ac.id/wp-content/uploads/2023/11/bapak-gus-dur-profil-dan-kiprah-presiden-keempat-indonesia.webp?resize=750%2C375&ssl=1',
-              height: 60,
-              width: 60,
-              fit: BoxFit.cover,
-            ),
+          Card(
+            color: color.primary,
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30),),
+            child: imageUrl != null
+                ? Image.network(
+                    imageUrl,
+                    height: 60,
+                    width: 60,
+                    fit: BoxFit.cover,
+                  )
+                : const Icon(
+                    Icons.person,
+                    size: 60,
+                  ),
           ),
           const Gap(12),
           Center(
@@ -127,6 +143,40 @@ class AkunView extends GetView<AkunController> {
             ),
           ),
         ],
+      ),
+    );
+  }
+
+  Center belumLogin({
+    required BuildContext context,
+  }) {
+    return Center(
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const Icon(
+              Icons.person,
+              size: 200,
+            ),
+            const Gap(12),
+            Text(
+              "Yah, Kamu belum punya akun",
+              style: context.titleLargeBold,
+            ),
+            Text(
+              "Yuk Login sekarang",
+              style: context.textTheme.titleMedium,
+            ),
+            const Gap(12),
+            ElevatedButton(
+              onPressed: controller.toDaftar,
+              child: const Text('Daftar'),
+            ),
+            const Gap(12),
+          ],
+        ),
       ),
     );
   }

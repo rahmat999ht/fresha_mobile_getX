@@ -14,15 +14,15 @@ class ProductsView extends GetView<ProductsController> {
             context: context,
           ),
           Expanded(
-            child: GridView.builder(
-              padding: const EdgeInsets.all(8.0),
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 1,
-                childAspectRatio: 1.530,
-                mainAxisSpacing: 4.0,
-                crossAxisSpacing: 4.0,
-              ),
-              // gridDelegate: CustomGridDelegate(dimension: 150.0),
+            child: ListView.builder(
+              padding: const EdgeInsets.only(),
+              // gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              //   crossAxisCount: 1,
+              //   childAspectRatio: 1.530,
+              //   mainAxisSpacing: 3.3,
+              //   crossAxisSpacing: 4.0,
+              // ),
+              // // gridDelegate: CustomGridDelegate(dimension: 150.0),
               itemCount: state!.data.length,
               shrinkWrap: true,
               scrollDirection: Axis.horizontal, // The default is vertical.
@@ -83,57 +83,52 @@ class ProductsView extends GetView<ProductsController> {
     final dataProduct = state.data[index];
     return InkWell(
       onTap: onTap,
-      child: GridTile(
-        header: GridTileBar(
-          title: Text('$index', style: const TextStyle(color: Colors.black)),
-        ),
-        child: Container(
-          margin: const EdgeInsets.only(top: 12, bottom: 12, left: 12),
-          padding: const EdgeInsets.all(12.0),
-          decoration: ShapeDecoration(
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(12.0),
-            ),
-            gradient: RadialGradient(
-              colors: [
-                // context.colorScheme.background,
-                context.colorScheme.primary,
-                context.colorScheme.background,
-              ],
-            ),
+      child: Container(
+        margin: const EdgeInsets.only(top: 12, bottom: 12, left: 12),
+        padding: const EdgeInsets.all(12.0),
+        decoration: ShapeDecoration(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12.0),
           ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Card(
-                margin: const EdgeInsets.all(0),
-                child: Image.network(
-                  dataProduct.image,
-                  height: context.height * 0.19,
-                  width: context.height * 0.19,
-                  fit: BoxFit.cover,
-                ),
-              ),
-              const Gap(4),
-              Text(
-                dataProduct.name,
-                style: context.textTheme.titleMedium,
-              ),
-              const Spacer(),
-              RichText(
-                text: TextSpan(
-                  text: 'Rp. ${dataProduct.price}',
-                  style: context.labelMediumBold,
-                  children: [
-                    TextSpan(
-                      text: ' /1kg',
-                      style: context.textTheme.titleMedium,
-                    ),
-                  ],
-                ),
-              ),
+          gradient: RadialGradient(
+            colors: [
+              // context.colorScheme.background,
+              context.colorScheme.primary,
+              context.colorScheme.background,
             ],
           ),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Card(
+              margin: const EdgeInsets.all(0),
+              child: Image.network(
+                dataProduct.image,
+                height: context.height * 0.19,
+                width: context.height * 0.19,
+                fit: BoxFit.cover,
+              ),
+            ),
+            const Gap(4),
+            Text(
+              dataProduct.name,
+              style: context.textTheme.titleMedium,
+            ),
+            const Spacer(),
+            RichText(
+              text: TextSpan(
+                text: 'Rp. ${dataProduct.price}',
+                style: context.labelMediumBold,
+                children: [
+                  TextSpan(
+                    text: ' /1kg',
+                    style: context.textTheme.titleMedium,
+                  ),
+                ],
+              ),
+            ),
+          ],
         ),
       ),
     );

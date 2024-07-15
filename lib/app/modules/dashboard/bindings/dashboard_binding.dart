@@ -3,6 +3,7 @@ import 'package:fresha_mobile/app/modules/dashboard_item/home/controllers/home_c
 import 'package:fresha_mobile/app/modules/dashboard_item/kategori/controllers/kategori_controller.dart';
 import 'package:fresha_mobile/app/modules/dashboard_item/pesanan/controllers/pesanan_controller.dart';
 import 'package:fresha_mobile/core.dart';
+import 'package:fresha_mobile/provider/customer_provider.dart';
 
 import '../../dashboard_item/products/controllers/products_controller.dart';
 import '../controllers/dashboard_controller.dart';
@@ -19,8 +20,13 @@ class DashboardBinding extends Bindings {
     Get.lazyPut(
       () => OrderProvider(),
     );
-    Get.put<ProductsController>(
-      ProductsController(productProvider: Get.find()),
+    Get.lazyPut(
+          () => CustomerProvider(),
+    );
+    Get.lazyPut<ProductsController>(
+      () => ProductsController(
+        productProvider: Get.find(),
+      ),
     );
     Get.lazyPut<DashboardController>(
       () => DashboardController(),
@@ -30,19 +36,22 @@ class DashboardBinding extends Bindings {
         prefService: Get.find(),
       ),
     );
-    Get.put<KategoriController>(
-      KategoriController(
+    Get.lazyPut<KategoriController>(
+      () => KategoriController(
         productProvider: Get.find(),
       ),
     );
-    Get.put<PesananController>(
-      PesananController(
+    Get.lazyPut<PesananController>(
+      () => PesananController(
         orderProvider: Get.find(),
         prefService: Get.find(),
       ),
     );
     Get.lazyPut<AkunController>(
-      () => AkunController(),
+      () => AkunController(
+        prefService: Get.find(),
+        customerProvider: Get.find(),
+      ),
     );
   }
 }
