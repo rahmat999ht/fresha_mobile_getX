@@ -34,9 +34,7 @@ class ProductsController extends GetxController
       if (result.code == 200) {
         listProduct = result.data;
         log(listProduct.length.toString(), name: 'data model');
-        // change(listProduct, status: RxStatus.success());
-        change([], status: RxStatus.empty());
-
+        change(listProduct, status: RxStatus.success());
       } else {
         log('kosong', name: 'data kosong');
         change([], status: RxStatus.empty());
