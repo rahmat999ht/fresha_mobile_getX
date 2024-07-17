@@ -4,6 +4,7 @@ import '../controllers/home_controller.dart';
 
 class HomeView extends GetView<HomeController> {
   const HomeView({super.key});
+
   @override
   Widget build(BuildContext context) {
     final titleMedium = context.textTheme.titleMedium!;
@@ -21,9 +22,10 @@ class HomeView extends GetView<HomeController> {
         searchC: controller.searchC,
         onTapTitle: context.goPilihLokasi,
       ),
-      body: SingleChildScrollView(
-        child: Obx(
-          () => Column(
+      body: Obx(
+        () => SingleChildScrollView(
+          child: Column(
+            mainAxisSize: MainAxisSize.max,
             children: [
               contentSwip(
                 color: color,
@@ -38,9 +40,9 @@ class HomeView extends GetView<HomeController> {
                   onTapLogin: context.goWelcome,
                 ),
               const Gap(16),
-              const SizedBox(
-                height: 330,
-                child: ProductsView(),
+              SizedBox(
+                height: context.height + 500,
+                child: const ProductsView(),
               ),
             ],
           ),
@@ -93,33 +95,59 @@ class HomeView extends GetView<HomeController> {
     return AppBar(
       backgroundColor: color.background,
       centerTitle: true,
-      title: GestureDetector(
-        onTap: onTapTitle,
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Icon(
-              Icons.location_on,
-              color: color.onBackground,
-            ),
-            RichText(
-              text: TextSpan(
-                text: KeysBeranda.dikirimKe,
-                style: titleMedium,
-                children: <TextSpan>[
-                  TextSpan(
-                    text: KeysBeranda.pilihLokasi,
-                    style: titleMediumBold,
-                  ),
-                ],
+      title: Row(
+        children: [
+          const Gap(20),
+          Expanded(
+            child: TextFormField(
+              controller: searchC,
+              decoration: const InputDecoration(
+                prefixIcon: Icon(Icons.search),
+                hintText: KeysBeranda.hintCari,
+                filled: true,
+                contentPadding: EdgeInsets.symmetric(
+                  horizontal: 14,
+                  vertical: 0,
+                ),
               ),
-            )
-          ],
-        ),
+            ),
+          ),
+          // const Gap(20),
+          // const Icon(Icons.email_outlined),
+          const Gap(20),
+        ],
       ),
-      bottom: formSearch(searchC),
+
+      // bottom: formSearch(searchC),
     );
   }
+
+  // Widget contenAppBar(){
+  //   return  GestureDetector(
+  //     onTap: onTapTitle,
+  //     child: Row(
+  //       mainAxisSize: MainAxisSize.min,
+  //       children: [
+  //         Icon(
+  //           Icons.location_on,
+  //           color: color.onBackground,
+  //         ),
+  //         RichText(
+  //           text: TextSpan(
+  //             text: KeysBeranda.dikirimKe,
+  //             style: titleMedium,
+  //             children: <TextSpan>[
+  //               TextSpan(
+  //                 text: KeysBeranda.pilihLokasi,
+  //                 style: titleMediumBold,
+  //               ),
+  //             ],
+  //           ),
+  //         )
+  //       ],
+  //     ),
+  //   );
+  // }
 
   PreferredSize formSearch(TextEditingController searchC) {
     return PreferredSize(

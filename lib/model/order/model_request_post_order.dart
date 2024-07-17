@@ -4,25 +4,25 @@
 
 import 'dart:convert';
 
-FormOrderPost formOrderPostFromJson(String str) =>
-    FormOrderPost.fromJson(json.decode(str));
+ModelRequestOrderPost formOrderPostFromJson(String str) =>
+    ModelRequestOrderPost.fromJson(json.decode(str));
 
-String formOrderPostToJson(FormOrderPost data) => json.encode(data.toJson());
+String formOrderPostToJson(ModelRequestOrderPost data) => json.encode(data.toJson());
 
-class FormOrderPost {
+class ModelRequestOrderPost {
   String status;
   int totBuy;
   String orderById;
   List<ListProductOrder> listProduct;
 
-  FormOrderPost({
+  ModelRequestOrderPost({
     required this.status,
     required this.totBuy,
     required this.orderById,
     required this.listProduct,
   });
 
-  factory FormOrderPost.fromJson(Map<String, dynamic> json) => FormOrderPost(
+  factory ModelRequestOrderPost.fromJson(Map<String, dynamic> json) => ModelRequestOrderPost(
         status: json["status"],
         totBuy: json["totBuy"],
         orderById: json["orderById"],

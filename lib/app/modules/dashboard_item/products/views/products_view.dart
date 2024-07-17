@@ -7,25 +7,27 @@ class ProductsView extends GetView<ProductsController> {
   Widget build(BuildContext context) {
     return controller.obx(
       (state) => Column(
-        children: [
+        mainAxisSize: MainAxisSize.max,
+        children: <Widget>[
           headerRekomendasiProduct(
             title: 'Spesial Hari ini',
             subtitle: 'Promo menarik Hari ini untuk Kamu',
             context: context,
           ),
           Expanded(
-            child: ListView.builder(
-              padding: const EdgeInsets.only(),
-              // gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              //   crossAxisCount: 1,
-              //   childAspectRatio: 1.530,
-              //   mainAxisSpacing: 3.3,
-              //   crossAxisSpacing: 4.0,
-              // ),
-              // // gridDelegate: CustomGridDelegate(dimension: 150.0),
+            child: GridView.builder(
+              physics: const NeverScrollableScrollPhysics(),
+              padding: const EdgeInsets.symmetric(horizontal: 6),
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+                childAspectRatio: 0.7,
+                mainAxisSpacing: 4.0,
+                crossAxisSpacing: 4.0,
+              ),
+              // gridDelegate: CustomGridDelegate(dimension: 150.0),
               itemCount: state!.data.length,
               shrinkWrap: true,
-              scrollDirection: Axis.horizontal, // The default is vertical.
+              scrollDirection: Axis.vertical, // The default is vertical.
               // reverse: true, // The default is false, going down (or left to right).
               itemBuilder: (BuildContext ctx, int index) {
                 return cardProduct(
@@ -84,7 +86,7 @@ class ProductsView extends GetView<ProductsController> {
     return InkWell(
       onTap: onTap,
       child: Container(
-        margin: const EdgeInsets.only(top: 12, bottom: 12, left: 12),
+        margin: const EdgeInsets.only(top: 12, right: 6, left: 6),
         padding: const EdgeInsets.all(12.0),
         decoration: ShapeDecoration(
           shape: RoundedRectangleBorder(

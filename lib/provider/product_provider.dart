@@ -8,7 +8,7 @@ class ProductProvider extends GetConnect {
 
   Future<ModelProductById> fetchIdProducts(String id) async {
     try {
-      final String urlProduct = '${KeysEnpoint.products}/$id';
+      final String urlProduct = '${KeysEnpoint.product}/$id';
       log(urlProduct, name: "data url Product");
       final response = await get(urlProduct);
       if (response.status.hasError) {
@@ -27,7 +27,7 @@ class ProductProvider extends GetConnect {
   // Get request Product
   Future getProductPage(int page) async {
     try {
-      final String urlProduct = '${KeysEnpoint.products}?page=$page';
+      final String urlProduct = '${KeysEnpoint.product}?page=$page';
       // final urlProductParse = Uri.parse(urlProduct);
       log(urlProduct, name: "data url Product");
       final response = await get(urlProduct);
@@ -44,7 +44,7 @@ class ProductProvider extends GetConnect {
 
   Future<ModelProduct> fetchProducts() async {
     try {
-      const String urlProduct = KeysEnpoint.products;
+      const String urlProduct = KeysEnpoint.product;
       log(urlProduct, name: "data url Product");
       final response = await get(urlProduct);
       if (response.status.hasError) {

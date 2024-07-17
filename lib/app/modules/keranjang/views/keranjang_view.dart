@@ -3,6 +3,7 @@ import '../controllers/keranjang_controller.dart';
 
 class KeranjangView extends GetView<KeranjangController> {
   const KeranjangView({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -35,7 +36,12 @@ class KeranjangView extends GetView<KeranjangController> {
           ),
           cardCheckout(
             context: context,
-            onTapCheckout: () {},
+            onTapCheckout: () {
+              Get.toNamed(
+                Routes.CHECKOUT,
+                arguments: controller.listShop,
+              );
+            },
           ),
         ],
       ),

@@ -10,6 +10,7 @@ export 'auth/model_regist_request.dart';
 export 'order/model_order.dart';
 export 'order/model_response_by_cutamer_id.dart';
 export 'order/model_response_order_id.dart';
+export 'order/model_response_post_order.dart';
 export 'order/data_order.dart';
 export 'product/data_product.dart';
 export 'product/model_product.dart';

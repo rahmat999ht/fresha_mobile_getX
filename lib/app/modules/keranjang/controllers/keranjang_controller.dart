@@ -7,11 +7,11 @@ class KeranjangController extends GetxController
   final ProductProvider productProvider;
   KeranjangController({required this.productProvider});
 
-  late DataProduct? dataProduct;
-  final List<DataProduct> listProduct = <DataProduct>[];
-  final listShop = <DataProduct, int>{}.obs;
-  final total = 0.obs;
-  // final charge = 0.obs;
+    late DataProduct? dataProduct;
+    final List<DataProduct> listProduct = <DataProduct>[];
+    final listShop = <DataProduct, int>{}.obs;
+    final total = 0.obs;
+    // final charge = 0.obs;
 
   @override
   void onInit() {

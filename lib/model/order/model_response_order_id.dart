@@ -6,6 +6,8 @@ import 'dart:convert';
 
 import 'package:fresha_mobile/core.dart';
 
+import 'list_product_custamer.dart';
+
 ModelResponseOrderId modelResponseOrderIdFromJson(String str) =>
     ModelResponseOrderId.fromJson(json.decode(str));
 
@@ -44,7 +46,7 @@ class DataUtama {
   String orderById;
   DateTime createdAt;
   DateTime updatedAt;
-  List<ListProduct> listProduct;
+  List<ListProductCustamer> listProduct;
   OrderBy orderBy;
 
   DataUtama({
@@ -65,8 +67,8 @@ class DataUtama {
         orderById: json["orderById"],
         createdAt: DateTime.parse(json["createdAt"]),
         updatedAt: DateTime.parse(json["updatedAt"]),
-        listProduct: List<ListProduct>.from(
-            json["listProduct"].map((x) => ListProduct.fromJson(x))),
+        listProduct: List<ListProductCustamer>.from(
+            json["listProduct"].map((x) => ListProductCustamer.fromJson(x))),
         orderBy: OrderBy.fromJson(json["orderBy"]),
       );
 
@@ -79,38 +81,6 @@ class DataUtama {
         "updatedAt": updatedAt.toIso8601String(),
         "listProduct": List<dynamic>.from(listProduct.map((x) => x.toJson())),
         "orderBy": orderBy.toJson(),
-      };
-}
-
-class ListProduct {
-  String productId;
-  String orderId;
-  int quantity;
-  int totPrice;
-  DataProduct product;
-
-  ListProduct({
-    required this.productId,
-    required this.orderId,
-    required this.quantity,
-    required this.totPrice,
-    required this.product,
-  });
-
-  factory ListProduct.fromJson(Map<String, dynamic> json) => ListProduct(
-        productId: json["productId"],
-        orderId: json["orderId"],
-        quantity: json["quantity"],
-        totPrice: json["totPrice"],
-        product: DataProduct.fromJson(json["product"]),
-      );
-
-  Map<String, dynamic> toJson() => {
-        "productId": productId,
-        "orderId": orderId,
-        "quantity": quantity,
-        "totPrice": totPrice,
-        "product": product.toJson(),
       };
 }
 

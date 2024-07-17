@@ -15,6 +15,7 @@ Future main() async {
   EasyLoading.init();
   var initialRoute = Routes.DASHBOARD;
   log(prefService.getIdCustomer.toString(), name: "idCus Login");
+  log(prefService.getUserToken.toString(), name: "token Login");
 
   runApp(FutureBuilder(
     future: Future.delayed(const Duration(seconds: 3)),

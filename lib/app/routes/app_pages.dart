@@ -1,5 +1,7 @@
 import 'package:get/get.dart';
 
+import '../modules/checkout/bindings/checkout_binding.dart';
+import '../modules/checkout/views/checkout_view.dart';
 import '../modules/dashboard/bindings/dashboard_binding.dart';
 import '../modules/dashboard/views/dashboard_view.dart';
 import '../modules/keranjang/bindings/keranjang_binding.dart';
@@ -51,6 +53,11 @@ class AppPages {
       name: _Paths.KERANJANG,
       page: () => const KeranjangView(),
       binding: KeranjangBinding(),
+    ),
+    GetPage(
+      name: _Paths.CHECKOUT,
+      page: () => const CheckoutView(),
+      binding: CheckoutBinding(),
     ),
   ];
 }

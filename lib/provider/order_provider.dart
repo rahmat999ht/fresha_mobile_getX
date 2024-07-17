@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'dart:developer';
 
-import 'package:fresha_mobile/model/order/form_post_order.dart';
+import 'package:fresha_mobile/model/order/model_request_post_order.dart';
 
 import '../core.dart';
 
@@ -12,7 +12,7 @@ class OrderProvider extends GetConnect {
 
   Future<ModelResponseOrderId> fetchIdOrder(String id) async {
     try {
-      final String urlProduct = '${KeysEnpoint.orders}/$id';
+      final String urlProduct = '${KeysEnpoint.order}/$id';
       log(urlProduct, name: "data url Product");
       final response = await get(urlProduct);
       if (response.status.hasError) {
@@ -29,32 +29,33 @@ class OrderProvider extends GetConnect {
   }
 
   // Post request
-  Future<Response> postOrder(FormOrderPost input) => post(
-        KeysEnpoint.orders,
-        input,
-      );
-  // Get request Product
-  Future getOrderPage(int page) async {
+  Future<ModelResponsePostOrder> postOrder(ModelRequestOrderPost input) async {
     try {
-      final String urlProduct = '${KeysEnpoint.orders}?page=$page';
-      // final urlProductParse = Uri.parse(urlProduct);
-      log(urlProduct, name: "data url Product");
-      final response = await get(urlProduct);
+      // _prefService.prefInit();
+      // final token = _prefService.getUserToken;
+      final dataInput = formOrderPostToJson(input);
+      final response = await post(
+        KeysEnpoint.order,
+        dataInput,
+        // headers: {'Authorization': "Bearer $token"},
+      );
+
       if (response.status.hasError) {
-        throw 'Failed to get order. Status Code: ${response.statusCode}';
+        throw Exception(
+            'Failed to get order. Status Code: ${response.statusCode}');
+      } else {
+        return modelResponsePostOrderFromJson(response.bodyString!);
       }
-      log(response.toString(), name: "data rerponse Product");
-      return response;
     } catch (error) {
-      log(error.toString(), name: "data error");
-      throw 'Error getting order: $error';
+      log('Error getting order: $error');
+      rethrow; // Rethrow the error to be handled by the caller
     }
   }
 
   Future<ModelResponseOrderByCustamer> fetchOrderByIdCustamer(
       String idCustamer) async {
     try {
-      const String urlOrder = KeysEnpoint.orders;
+      const String urlOrder = KeysEnpoint.order;
       log(urlOrder, name: "data url Product");
       final response = await get('$urlOrder?id_cus=$idCustamer');
       if (response.status.hasError) {

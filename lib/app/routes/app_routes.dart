@@ -15,6 +15,7 @@ abstract class Routes {
   static const AKUN = _Paths.AKUN;
   static const PRODUCTS = _Paths.PRODUCTS;
   static const KERANJANG = _Paths.KERANJANG;
+  static const CHECKOUT = _Paths.CHECKOUT;
 }
 
 abstract class _Paths {
@@ -29,4 +30,5 @@ abstract class _Paths {
   static const AKUN = '/akun';
   static const PRODUCTS = '/products';
   static const KERANJANG = '/keranjang';
+  static const CHECKOUT = '/checkout';
 }

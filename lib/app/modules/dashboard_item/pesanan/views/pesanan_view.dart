@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import '../../../../../core.dart';
 import '../controllers/pesanan_controller.dart';
 
@@ -19,18 +21,27 @@ class PesananView extends GetView<PesananController> {
           bottom: tapBarPesanan(textStyle: textStyle),
         ),
         body: controller.obx(
-          (state) => TabBarView(
-            children: <Widget>[
-              bodyDiProses(
-                state: state!,
-                context: context,
-              ),
-              bodySelesai(
-                state: state,
-                context: context,
-              ),
-            ],
-          ),
+          (state) {
+            final dataDone =
+                state!.where((element) => element.status == "done").toList();
+            log(dataDone.length.toString(), name: 'dataDone');
+            final dataProcessed = state
+                .where((element) => element.status == "processed")
+                .toList();
+            log(dataProcessed.length.toString(), name: 'dataProcessed');
+            return TabBarView(
+              children: <Widget>[
+                bodyDiProses(
+                  state: dataProcessed,
+                  context: context,
+                ),
+                bodySelesai(
+                  state: dataDone,
+                  context: context,
+                ),
+              ],
+            );
+          },
           onLoading: const LoadingState(),
           onError: (error) => ErrorState(error: error.toString()),
           onEmpty: keranjangKosong(context: context),
@@ -53,7 +64,10 @@ class PesananView extends GetView<PesananController> {
         itemCount: initData.length,
         itemBuilder: (ctx, i) {
           final data = initData[i];
-          return Text(data.status);
+          return cardOrder(
+            context: context,
+            dataOrder: data,
+          );
         },
       );
     }
@@ -142,58 +156,82 @@ class PesananView extends GetView<PesananController> {
   }) {
     return Container(
       width: context.width,
+      height: 130,
       margin: const EdgeInsets.all(12.0),
       padding: const EdgeInsets.all(12.0),
       decoration: ShapeDecoration(
+        color: context.colorScheme.background,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(12.0),
+          side:
+              BorderSide(width: 1, color: context.colorScheme.primaryContainer),
         ),
-        gradient: RadialGradient(
-          center: Alignment.centerLeft,
-          colors: [
-            context.colorScheme.primary,
-            context.colorScheme.background,
-          ],
-        ),
+        // gradient: RadialGradient(
+        //   center: Alignment.centerLeft,
+        //   colors: [
+        //     context.colorScheme.primary,
+        //     context.colorScheme.background,
+        //   ],
+        // ),
       ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisSize: MainAxisSize.min,
         children: [
-          ...dataOrder.listProduct.map(
-            (e) => Card(
-              child: Image.network(
-                e.product.image,
-                height: context.height * 0.1,
-                width: context.height * 0.1,
-                fit: BoxFit.cover,
-              ),
-            ),
-          ),
-          const Gap(8),
           Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                dataOrder.orderById,
-                style: context.textTheme.titleMedium,
+              RichText(
+                text: TextSpan(
+                  children: [
+                    ...dataOrder.listProduct.map((e) {
+                      final productName = e.product.name;
+                      return TextSpan(
+                        text: "$productName, ",
+                        style: context.titleMediumBold,
+                      );
+                    }),
+                  ],
+                ),
               ),
-              const Text('1kg'),
-              Text(
-                'Rp. ${dataOrder.totBuy}',
-                style: context.labelMediumBold,
-              ),
+              Text('${dataOrder.listProduct.length} item'),
+              const Gap(20),
+              if (dataOrder.status == "done") const Text('Sayur telah diantar'),
+              if (dataOrder.status == "processed")
+                const Text('Sayur telah dikemas'),
+              Text('${dataOrder.updatedAt.copyWith(
+                isUtc: false,
+                hour: null,
+                minute: null,
+                second: null,
+                microsecond: null,
+                millisecond: null,
+              )}'),
             ],
           ),
           const Spacer(),
-          ElevatedButton(
-            onPressed: () {
-              // context.goKerangjang(
-              //   arguments: dataOrder.listProduct.first,
-              // );
-            },
-            child: const Text("Pesan Lagi"),
+          SizedBox(
+            height: 100,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              mainAxisSize: MainAxisSize.max,
+              children: [
+                Text(
+                  'Rp. ${dataOrder.totBuy}',
+                  style: context.labelMediumBold,
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    // context.goKerangjang(
+                    //   arguments: dataOrder.listProduct.first,
+                    // );
+                  },
+                  child: const Text("Pesan Lagi"),
+                ),
+              ],
+            ),
           ),
         ],
       ),
