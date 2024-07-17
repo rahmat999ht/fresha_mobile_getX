@@ -19,25 +19,31 @@ class CheckoutController extends GetxController {
   final listShop = <DataProduct, int>{}.obs;
   final total = 0.obs;
   String? idCustamer;
-  final dataListProduct = <ListProductOrder>[];
+  final dataListProduct = <ProductPostOrder>[];
   final isLoading = false.obs;
 
-  void initLoading(){
+  void initLoading() {
     isLoading.value = !isLoading.value;
   }
 
   Future addOrder() async {
     try {
       listShop.forEach((key, value) {
-        final dataProduct = ListProductOrder(
-          productId: key.id,
-          quantity: value,
-          totPrice: key.price * value,
+        String productId = key.id;
+        int quantity = value;
+        int totPrice = (key.price * value);
+        final dataProduct = ProductPostOrder(
+          productId: productId,
+          quantity: quantity,
+          totPrice: totPrice,
         );
+        log(productId, name: "productId");
+        log(quantity.toString(), name: "quantity");
+        log(totPrice.toString(), name: "totPrice");
         dataListProduct.add(dataProduct);
       });
       if (idCustamer != null) {
-        final dataOrder = ModelRequestOrderPost(
+        final dataOrder = ModelRequestPostOrder(
           status: 'processed',
           totBuy: total.value,
           orderById: idCustamer!,
@@ -73,7 +79,7 @@ class CheckoutController extends GetxController {
           );
           initLoading();
         });
-      }else{
+      } else {
         Get.snackbar(
           "Info",
           "id Login Kosong",

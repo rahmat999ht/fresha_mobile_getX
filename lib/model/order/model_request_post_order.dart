@@ -1,64 +1,61 @@
 // To parse this JSON data, do
 //
-//     final formOrderPost = formOrderPostFromJson(jsonString);
+//     final modelRequestPostOrder = modelRequestPostOrderFromJson(jsonString);
 
 import 'dart:convert';
 
-ModelRequestOrderPost formOrderPostFromJson(String str) =>
-    ModelRequestOrderPost.fromJson(json.decode(str));
+ModelRequestPostOrder modelRequestPostOrderFromJson(String str) => ModelRequestPostOrder.fromJson(json.decode(str));
 
-String formOrderPostToJson(ModelRequestOrderPost data) => json.encode(data.toJson());
+String modelRequestPostOrderToJson(ModelRequestPostOrder data) => json.encode(data.toJson());
 
-class ModelRequestOrderPost {
+class ModelRequestPostOrder {
   String status;
   int totBuy;
   String orderById;
-  List<ListProductOrder> listProduct;
+  List<ProductPostOrder> listProduct;
 
-  ModelRequestOrderPost({
+  ModelRequestPostOrder({
     required this.status,
     required this.totBuy,
     required this.orderById,
     required this.listProduct,
   });
 
-  factory ModelRequestOrderPost.fromJson(Map<String, dynamic> json) => ModelRequestOrderPost(
-        status: json["status"],
-        totBuy: json["totBuy"],
-        orderById: json["orderById"],
-        listProduct: List<ListProductOrder>.from(
-            json["listProduct"].map((x) => ListProductOrder.fromJson(x))),
-      );
+  factory ModelRequestPostOrder.fromJson(Map<String, dynamic> json) => ModelRequestPostOrder(
+    status: json["status"],
+    totBuy: json["totBuy"],
+    orderById: json["orderById"],
+    listProduct: List<ProductPostOrder>.from(json["listProduct"].map((x) => ProductPostOrder.fromJson(x))),
+  );
 
   Map<String, dynamic> toJson() => {
-        "status": status,
-        "totBuy": totBuy,
-        "orderById": orderById,
-        "listProduct": List<dynamic>.from(listProduct.map((x) => x.toJson())),
-      };
+    "status": status,
+    "totBuy": totBuy,
+    "orderById": orderById,
+    "listProduct": List<dynamic>.from(listProduct.map((x) => x.toJson())),
+  };
 }
 
-class ListProductOrder {
+class ProductPostOrder {
   String productId;
   int quantity;
   int totPrice;
 
-  ListProductOrder({
+  ProductPostOrder({
     required this.productId,
     required this.quantity,
     required this.totPrice,
   });
 
-  factory ListProductOrder.fromJson(Map<String, dynamic> json) =>
-      ListProductOrder(
-        productId: json["productId"],
-        quantity: json["quantity"],
-        totPrice: json["totPrice"],
-      );
+  factory ProductPostOrder.fromJson(Map<String, dynamic> json) => ProductPostOrder(
+    productId: json["productId"],
+    quantity: json["quantity"],
+    totPrice: json["totPrice"],
+  );
 
   Map<String, dynamic> toJson() => {
-        "productId": productId,
-        "quantity": quantity,
-        "totPrice": totPrice,
-      };
+    "productId": productId,
+    "quantity": quantity,
+    "totPrice": totPrice,
+  };
 }

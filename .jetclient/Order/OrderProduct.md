@@ -1,6 +1,6 @@
 ```toml
 name = 'OrderProduct'
-method = 'GET'
+method = 'POST'
 url = 'https://fresha-web-admin.vercel.app/api/order'
 sortWeight = 1000000
 id = '9072f89f-d370-4307-9a43-50a2d3048ee0'
@@ -21,7 +21,7 @@ type = 'JSON'
 raw = '''
 {
   "status": "processed",
-  "totBuy": 3000,
+  "totBuy": 30000,
   "orderById": "clynd4xgj0000w8jdqhwujtt5",
   "listProduct": [
     {

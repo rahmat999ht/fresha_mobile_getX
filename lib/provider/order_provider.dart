@@ -29,11 +29,11 @@ class OrderProvider extends GetConnect {
   }
 
   // Post request
-  Future<ModelResponsePostOrder> postOrder(ModelRequestOrderPost input) async {
+  Future<ModelResponsePostOrder> postOrder(ModelRequestPostOrder input) async {
     try {
       // _prefService.prefInit();
       // final token = _prefService.getUserToken;
-      final dataInput = formOrderPostToJson(input);
+      final dataInput = modelRequestPostOrderToJson(input);
       final response = await post(
         KeysEnpoint.order,
         dataInput,
