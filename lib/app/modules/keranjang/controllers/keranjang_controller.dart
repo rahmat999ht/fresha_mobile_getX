@@ -5,24 +5,27 @@ import '../../../../core.dart';
 class KeranjangController extends GetxController
     with StateMixin<List<DataProduct>> {
   final ProductProvider productProvider;
+
   KeranjangController({required this.productProvider});
 
-    late DataProduct? dataProduct;
-    final List<DataProduct> listProduct = <DataProduct>[];
-    final listShop = <DataProduct, int>{}.obs;
-    final total = 0.obs;
-    // final charge = 0.obs;
+  List<DataProduct> listProduct = <DataProduct>[];
+  final listShop = <DataProduct, int>{}.obs;
+  final total = 0.obs;
+
+  // final charge = 0.obs;
 
   @override
   void onInit() {
     if (Get.arguments != null) {
-      dataProduct = Get.arguments as DataProduct;
-      addListShop(dataProduct!);
-      total.value = dataProduct!.price;
-      log(dataProduct!.id, name: 'kerangjang list Product');
-      log(listShop.toString(), name: 'kerangjang listShop');
+      listProduct = Get.arguments as List<DataProduct>;
+      for (var product in listProduct) {
+        listShop[product] =
+            1; // Inisialisasi dengan jumlah 1 untuk setiap produk
+      }
+      log(listProduct.length.toString(), name: 'kerangjang list ada');
     } else {
-      dataProduct = null;
+      listProduct = [];
+      log(listProduct.length.toString(), name: 'kerangjang list kosong');
     }
     findAllProduct();
     streamDataTotal();

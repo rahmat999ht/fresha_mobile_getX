@@ -224,9 +224,9 @@ class PesananView extends GetView<PesananController> {
                 ),
                 ElevatedButton(
                   onPressed: () {
-                    // context.goKerangjang(
-                    //   arguments: dataOrder.listProduct.first,
-                    // );
+                    context.goKerangjang(
+                      arguments: dataOrder.listProduct.map((e) => e.product).toList(),
+                    );
                   },
                   child: const Text("Pesan Lagi"),
                 ),

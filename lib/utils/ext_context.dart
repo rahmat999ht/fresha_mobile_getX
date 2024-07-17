@@ -38,7 +38,7 @@ extension BuildContextExtentions on BuildContext {
     Get.toNamed(Routes.LOKASI);
   }
 
-  void goKerangjang({required DataProduct? arguments}) {
+  void goKerangjang({required List<DataProduct>? arguments}) {
     Get.toNamed(
       Routes.KERANJANG,
       arguments: arguments,

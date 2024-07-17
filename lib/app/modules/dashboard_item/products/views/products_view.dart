@@ -36,7 +36,7 @@ class ProductsView extends GetView<ProductsController> {
                   context: context,
                   onTap: () {
                     context.goKerangjang(
-                      arguments: state.data[index],
+                      arguments: [state.data[index]],
                     );
                   },
                 );

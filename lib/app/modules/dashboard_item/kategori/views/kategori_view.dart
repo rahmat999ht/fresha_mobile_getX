@@ -82,7 +82,11 @@ class KategoriView extends GetView<KategoriController> {
                   return cardShop(
                     context: context,
                     state: state[index],
-                    onTapTambah: () {},
+                    onTapTambah: () {
+                      context.goKerangjang(
+                        arguments: [state[index]],
+                      );
+                    },
                   );
                 },
               ),
