@@ -33,3 +33,5 @@ class ModelResponsePatchProduct {
     "data": data.toJson(),
   };
 }
+
+

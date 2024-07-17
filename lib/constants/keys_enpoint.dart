@@ -10,4 +10,6 @@ class KeysEnpoint {
   static const String auth = '/auth-costumer';
   static const String register = '/auth-custamer/register';
   static const String login = '/auth-custamer/login';
+  static const String hastag1 = '/hastag1';
+  static const String hastag2 = '/hastag2';
 }

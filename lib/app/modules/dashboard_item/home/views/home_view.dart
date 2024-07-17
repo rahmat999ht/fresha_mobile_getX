@@ -20,6 +20,7 @@ class HomeView extends GetView<HomeController> {
         titleMedium: titleMedium,
         titleMediumBold: titleMediumBold,
         searchC: controller.searchC,
+        isSearch: controller.isSearch,
         onTapTitle: context.goPilihLokasi,
       ),
       body: Obx(
@@ -90,6 +91,7 @@ class HomeView extends GetView<HomeController> {
     required TextStyle titleMedium,
     required TextStyle titleMediumBold,
     required TextEditingController searchC,
+    required RxBool isSearch,
     required void Function() onTapTitle,
   }) {
     return AppBar(
@@ -101,6 +103,12 @@ class HomeView extends GetView<HomeController> {
           Expanded(
             child: TextFormField(
               controller: searchC,
+              onChanged: (v) {
+                controller.controllerProduct.onChangeSearch(
+                  value: v,
+                  isSearch: isSearch,
+                );
+              },
               decoration: const InputDecoration(
                 prefixIcon: Icon(Icons.search),
                 hintText: KeysBeranda.hintCari,

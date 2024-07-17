@@ -1,20 +1,22 @@
 import '../../../../../core.dart';
 import '../controllers/products_controller.dart';
 
+
 class ProductsView extends GetView<ProductsController> {
   const ProductsView({super.key});
+
   @override
   Widget build(BuildContext context) {
-    return controller.obx(
-      (state) => Column(
-        mainAxisSize: MainAxisSize.max,
-        children: <Widget>[
-          headerRekomendasiProduct(
-            title: 'Spesial Hari ini',
-            subtitle: 'Promo menarik Hari ini untuk Kamu',
-            context: context,
-          ),
-          Expanded(
+    return Column(
+      mainAxisSize: MainAxisSize.max,
+      children: <Widget>[
+        headerRekomendasiProduct(
+          title: 'Spesial Hari ini',
+          subtitle: 'Promo menarik Hari ini untuk Kamu',
+          context: context,
+        ),
+        controller.obx(
+          (state) => Expanded(
             child: GridView.builder(
               physics: const NeverScrollableScrollPhysics(),
               padding: const EdgeInsets.symmetric(horizontal: 6),
@@ -25,29 +27,29 @@ class ProductsView extends GetView<ProductsController> {
                 crossAxisSpacing: 4.0,
               ),
               // gridDelegate: CustomGridDelegate(dimension: 150.0),
-              itemCount: state!.data.length,
+              itemCount: state!.length,
               shrinkWrap: true,
-              scrollDirection: Axis.vertical, // The default is vertical.
+              scrollDirection: Axis.vertical,
+              // The default is vertical.
               // reverse: true, // The default is false, going down (or left to right).
               itemBuilder: (BuildContext ctx, int index) {
                 return cardProduct(
-                  index: index,
-                  state: state,
+                  state: state[index],
                   context: context,
                   onTap: () {
                     context.goKerangjang(
-                      arguments: [state.data[index]],
+                      arguments: [state[index]],
                     );
                   },
                 );
               },
             ),
           ),
-        ],
-      ),
-      onLoading: const LoadingState(),
-      onError: (error) => ErrorState(error: error.toString()),
-      onEmpty: const EmptyState(),
+          onLoading: const LoadingState(),
+          onError: (error) => ErrorState(error: error.toString()),
+          onEmpty: belumLogin(context: context),
+        ),
+      ],
     );
   }
 
@@ -78,11 +80,9 @@ class ProductsView extends GetView<ProductsController> {
 
   InkWell cardProduct({
     required BuildContext context,
-    required int index,
-    required ModelProduct state,
+    required DataProduct state,
     required void Function() onTap,
   }) {
-    final dataProduct = state.data[index];
     return InkWell(
       onTap: onTap,
       child: Container(
@@ -106,7 +106,7 @@ class ProductsView extends GetView<ProductsController> {
             Card(
               margin: const EdgeInsets.all(0),
               child: Image.network(
-                dataProduct.image,
+                state.image,
                 height: context.height * 0.19,
                 width: context.height * 0.19,
                 fit: BoxFit.cover,
@@ -114,13 +114,13 @@ class ProductsView extends GetView<ProductsController> {
             ),
             const Gap(4),
             Text(
-              dataProduct.name,
+              state.name,
               style: context.textTheme.titleMedium,
             ),
             const Spacer(),
             RichText(
               text: TextSpan(
-                text: 'Rp. ${dataProduct.price}',
+                text: 'Rp. ${state.price}',
                 style: context.labelMediumBold,
                 children: [
                   TextSpan(
@@ -130,6 +130,40 @@ class ProductsView extends GetView<ProductsController> {
                 ],
               ),
             ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Center belumLogin({
+    required BuildContext context,
+  }) {
+    return Center(
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const Icon(
+              Icons.person,
+              size: 200,
+            ),
+            const Gap(12),
+            Text(
+              "Yah, Kamu belum punya akun",
+              style: context.titleLargeBold,
+            ),
+            Text(
+              "Yuk Login sekarang!",
+              style: context.textTheme.titleMedium,
+            ),
+            // const Gap(12),
+            // ElevatedButton(
+            //   onPressed: controller.toDaftar,
+            //   child: const Text('Daftar'),
+            // ),
+            const Gap(12),
           ],
         ),
       ),

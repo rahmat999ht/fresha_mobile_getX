@@ -1,6 +1,5 @@
 import 'dart:developer';
 
-
 import '../core.dart';
 
 class ProductProvider extends GetConnect {
@@ -61,7 +60,29 @@ class ProductProvider extends GetConnect {
     }
   }
 
-  Future<ModelResponsePatchProduct> patchProducts(ModelRequestPatchProduct input) async {
+  Future<ModelResponseProductWhereHastagMl> fetchProductsWhereHastag({
+    required String hastag1,
+    required String hastag2,
+  }) async {
+    try {
+      String urlProduct = "${KeysEnpoint.product}?hastag1=$hastag1&hastag2=$hastag2";
+      log(urlProduct, name: "data url Product");
+      final response = await get(urlProduct);
+      if (response.status.hasError) {
+        log(response.toString(), name: 'data error');
+        return Future.error(response);
+      } else {
+        // log(response.bodyString!, name: 'data response');
+        return modelResponseProductWhereHastagMlFromJson(response.bodyString!);
+      }
+    } catch (error) {
+      log(error.toString(), name: "data error");
+      throw 'Error getting products: $error';
+    }
+  }
+
+  Future<ModelResponsePatchProduct> patchProducts(
+      ModelRequestPatchProduct input) async {
     try {
       const String urlProduct = KeysEnpoint.product;
       log(urlProduct, name: "data url Product");
