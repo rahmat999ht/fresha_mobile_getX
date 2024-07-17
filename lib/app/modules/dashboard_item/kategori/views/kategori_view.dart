@@ -3,6 +3,7 @@ import '../controllers/kategori_controller.dart';
 
 class KategoriView extends GetView<KategoriController> {
   const KategoriView({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -34,22 +35,47 @@ class KategoriView extends GetView<KategoriController> {
   }) {
     return Container(
       color: context.colorScheme.background,
+      height: 60,
+      width: double.infinity,
       child: SingleChildScrollView(
-        child: Row(
-          children: [
-            const Gap(12),
-            ...controller.listKategori.map(
-              (element) => Padding(
-                padding: const EdgeInsets.only(top: 4, left: 4, bottom: 4),
-                child: OutlinedButton(
-                  onPressed: () async {
-                    await controller.onChangeFilter(filter: element);
-                  },
-                  child: Text(element),
+        scrollDirection: Axis.horizontal,
+        child: Obx(
+          () => Row(
+            children: [
+              const Gap(12),
+              ...controller.filterListKategori.map(
+                (element) => Padding(
+                  padding: const EdgeInsets.only(top: 4, left: 4, bottom: 4),
+                  child: OutlinedButton(
+                    onPressed: () async {
+                      // Set semua isSelected menjadi false
+                      for (var filter in controller.filterListKategori) {
+                        filter.isSelected.value = false;
+                      }
+                      // Set isSelected untuk elemen yang ditekan menjadi true
+                      element.isSelected.value = true;
+
+                      element.isSelected.value = true;
+                      await controller.onChangeFilter(filter: element.title);
+                    },
+                    style: OutlinedButton.styleFrom(
+                      backgroundColor: element.isSelected.isTrue
+                          ? context.colorScheme.primary
+                          : context.colorScheme.background,
+                    ),
+                    child: Text(
+                      element.title,
+                      style: context.textTheme.labelLarge!.copyWith(
+                        color: element.isSelected.isFalse
+                            ? context.colorScheme.primary
+                            : context.colorScheme.background,
+                      ),
+                    ),
+                  ),
                 ),
-              ),
-            )
-          ],
+              )
+            ],
+          ),
         ),
       ),
     );
@@ -108,7 +134,10 @@ class KategoriView extends GetView<KategoriController> {
           Expanded(
             child: TextFormField(
               controller: controller.searchC,
-              onChanged: (search) => controller.onChangeSearch(search: search),
+              onChanged: (search) => controller.onChangeSearch(
+                value: search,
+                isSearch: controller.isSearch,
+              ),
               decoration: const InputDecoration(
                 prefixIcon: Icon(Icons.search),
                 hintText: KeysBeranda.hintCari,

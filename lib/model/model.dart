@@ -15,3 +15,7 @@ export 'order/data_order.dart';
 export 'product/data_product.dart';
 export 'product/model_product.dart';
 export 'product/model_product_by_id.dart';
+export 'hastag_ml/model_request_post_hastag_ml.dart';
+export 'hastag_ml/model_response_post_hastag.dart';
+export 'product/model_request_patch_product.dart';
+export 'product/model_response_patch_product.dart';

@@ -5,13 +5,15 @@ import '../../../../../core.dart';
 class KategoriController extends GetxController
     with StateMixin<List<DataProduct>> {
   final ProductProvider productProvider;
+
   KategoriController({required this.productProvider});
 
   final searchC = TextEditingController();
   var listProduct = <DataProduct>[];
-  final Set listKategori = <String>{
-    'All',
-  };
+  final listKategori = <String>{'All'};
+  var filterListKategori = <ModelFilter>[].obs;
+
+  final isSearch = false.obs;
 
   @override
   void onInit() async {
@@ -27,8 +29,14 @@ class KategoriController extends GetxController
     change(onFilter, status: RxStatus.success());
   }
 
-  void onChangeSearch({required String search}) {
-    final onSearch = listProduct.where((e) => e.name == search).toList();
+  void onChangeSearch({required String value, required RxBool isSearch}) {
+    final onSearch = value.isEmpty
+        ? listProduct
+        : listProduct
+            .where((element) => element.name.toLowerCase().contains(
+                  value.toLowerCase(),
+                ))
+            .toList();
     change(onSearch, status: RxStatus.success());
   }
 
@@ -39,6 +47,11 @@ class KategoriController extends GetxController
         for (var e in result.data) {
           listKategori.add(e.category);
         }
+        filterListKategori.value = listKategori
+            .map(
+              (e) => ModelFilter(title: e, isSelected: false.obs),
+            )
+            .toList();
         listProduct = result.data;
         change(listProduct, status: RxStatus.success());
       } else {
@@ -48,4 +61,14 @@ class KategoriController extends GetxController
       change(null, status: RxStatus.error(err.toString()));
     });
   }
+}
+
+class ModelFilter {
+  final String title;
+  Rx<bool> isSelected;
+
+  ModelFilter({
+    required this.title,
+    required this.isSelected,
+  });
 }

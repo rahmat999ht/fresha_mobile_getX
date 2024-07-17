@@ -1,14 +1,20 @@
 import 'dart:developer';
 
 import 'package:fresha_mobile/model/order/model_request_post_order.dart';
+import 'package:fresha_mobile/model/product/model_request_patch_product.dart';
+import 'package:fresha_mobile/provider/hastag_ml_provider.dart';
 
 import '../../../../core.dart';
 
 class CheckoutController extends GetxController {
+  final HastagMlProvider hastagMlProvider;
+  final ProductProvider productProvider;
   final OrderProvider orderProvider;
   final PrefService prefService;
 
   CheckoutController({
+    required this.hastagMlProvider,
+    required this.productProvider,
     required this.orderProvider,
     required this.prefService,
   });
@@ -20,10 +26,26 @@ class CheckoutController extends GetxController {
   final total = 0.obs;
   String? idCustamer;
   final dataListProduct = <ProductPostOrder>[];
+  final dataListHastagProduct = <String>[];
   final isLoading = false.obs;
+  final isPostHastag = false.obs;
+  final isPatchProduct = false.obs;
+  final isPostOrder = false.obs;
 
   void initLoading() {
     isLoading.value = !isLoading.value;
+  }
+
+  void initPostHastag() {
+    isPostHastag.value = !isPostHastag.value;
+  }
+
+  void initPatchProduct() {
+    isPatchProduct.value = !isPatchProduct.value;
+  }
+
+  void initPostOrder() {
+    isPostOrder.value = !isPostOrder.value;
   }
 
   Future addOrder() async {
@@ -41,6 +63,7 @@ class CheckoutController extends GetxController {
         log(quantity.toString(), name: "quantity");
         log(totPrice.toString(), name: "totPrice");
         dataListProduct.add(dataProduct);
+        dataListHastagProduct.add(key.hastagMl);
       });
       if (idCustamer != null) {
         final dataOrder = ModelRequestPostOrder(
@@ -50,35 +73,81 @@ class CheckoutController extends GetxController {
           listProduct: dataListProduct,
         );
         initLoading();
+        //patch product stock
+        dataListProduct.map((e) {
+          final dataUpdateProduct =
+              ModelRequestPatchProduct(id: e.productId, stock: e.quantity);
+          productProvider.patchProducts(dataUpdateProduct).then(
+            (result) {
+              if (result.code == 200) {
+                initPatchProduct();
+              }
+            },
+            onError: (err) {
+              Get.snackbar(
+                "Info",
+                "Terjadi kesalahan saat update product : $err",
+                snackPosition: SnackPosition.TOP,
+                borderRadius: 10,
+              );
+            },
+          );
+        });
+
+        //post Hastag
+        dataListHastagProduct.map((e) async {
+          final dataHastag = ModelRequestPostHastagMl(
+            name: e,
+            custamerId: idCustamer!,
+          );
+          hastagMlProvider.postHastagMl(dataHastag).then(
+            (result) {
+              if (result.code == 200) {
+                initPostHastag();
+              }
+            },
+            onError: (err) {
+              Get.snackbar(
+                "Info",
+                "Terjadi kesalahan saat post hastag : $err",
+                snackPosition: SnackPosition.TOP,
+                borderRadius: 10,
+              );
+            },
+          );
+        });
+        //post Order
         orderProvider.postOrder(dataOrder).then((result) {
           if (result.code == 200) {
-            Get.snackbar(
-              "Info",
-              "Anda berhasil malakukan pesanan, id Pesanan anda = {${result.data.id}}",
-              snackPosition: SnackPosition.TOP,
-              borderRadius: 10,
-            );
-            initLoading();
-            Get.offAllNamed(Routes.DASHBOARD);
-          } else {
-            Get.snackbar(
-              "Info",
-              "Anda gagal malakukan pesanan {${result.status}}",
-              snackPosition: SnackPosition.TOP,
-              borderRadius: 10,
-            );
-            initLoading();
-            log('kosong', name: 'data kosong');
+            initPostOrder();
           }
         }, onError: (err) {
           Get.snackbar(
             "Info",
-            "Terjadi kesalahan : $err",
+            "Terjadi kesalahan saat post order : $err",
+            snackPosition: SnackPosition.TOP,
+            borderRadius: 10,
+          );
+        });
+        if (isPatchProduct.isTrue && isPostHastag.isTrue && isPostOrder.isTrue) {
+          Get.snackbar(
+            "Info",
+            "Anda berhasil malakukan pesanan",
             snackPosition: SnackPosition.TOP,
             borderRadius: 10,
           );
           initLoading();
-        });
+          Get.offAllNamed(Routes.DASHBOARD);
+        } else {
+          Get.snackbar(
+            "Info",
+            "Anda gagal malakukan pesanan",
+            snackPosition: SnackPosition.TOP,
+            borderRadius: 10,
+          );
+          initLoading();
+          log('kosong', name: 'data kosong');
+        }
       } else {
         Get.snackbar(
           "Info",

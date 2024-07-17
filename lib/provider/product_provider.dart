@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+
 import '../core.dart';
 
 class ProductProvider extends GetConnect {
@@ -53,6 +54,28 @@ class ProductProvider extends GetConnect {
       } else {
         // log(response.bodyString!, name: 'data response');
         return modelProductFromJson(response.bodyString!);
+      }
+    } catch (error) {
+      log(error.toString(), name: "data error");
+      throw 'Error getting products: $error';
+    }
+  }
+
+  Future<ModelResponsePatchProduct> patchProducts(ModelRequestPatchProduct input) async {
+    try {
+      const String urlProduct = KeysEnpoint.product;
+      log(urlProduct, name: "data url Product");
+      final request = modelRequestPatchProductToJson(input);
+      final response = await patch(
+        urlProduct,
+        request,
+      );
+      if (response.status.hasError) {
+        log(response.toString(), name: 'data error');
+        return Future.error(response);
+      } else {
+        // log(response.bodyString!, name: 'data response');
+        return modelResponsePatchProductFromJson(response.bodyString!);
       }
     } catch (error) {
       log(error.toString(), name: "data error");

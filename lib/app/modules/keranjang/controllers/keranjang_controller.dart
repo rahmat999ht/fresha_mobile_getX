@@ -19,8 +19,8 @@ class KeranjangController extends GetxController
     if (Get.arguments != null) {
       listProduct = Get.arguments as List<DataProduct>;
       for (var product in listProduct) {
-        listShop[product] =
-            1; // Inisialisasi dengan jumlah 1 untuk setiap produk
+        // Inisialisasi dengan jumlah 1 untuk setiap produk
+        listShop[product] = 1;
       }
       log(listProduct.length.toString(), name: 'kerangjang list ada');
     } else {
