@@ -33,17 +33,26 @@ class AkunView extends GetView<AkunController> {
                   ),
                   const Gap(30),
                   cardAkun(
-                    title: 'Daftar Alamat Saya',
-                    icons: Icons.location_on_outlined,
+                    title: 'Informasi Pribadi',
+                    icons: Icons.person,
                     color: color,
                     titleMedium: titleMedium,
+                    onTap: () => controller.toUpdateProfil(state!),
                   ),
+                  // const Gap(4),
+                  // cardAkun(
+                  //   title: 'Pengaturan Akun',
+                  //   icons: Icons.settings,
+                  //   color: color,
+                  //   titleMedium: titleMedium,
+                  // ),
                   const Gap(4),
                   cardAkun(
-                    title: 'Pengaturan Akun',
-                    icons: Icons.settings,
+                    title: 'Keluar',
+                    icons: Icons.logout_rounded,
                     color: color,
                     titleMedium: titleMedium,
+                    onTap: controller.loOut,
                   ),
                 ],
               ),
@@ -54,29 +63,33 @@ class AkunView extends GetView<AkunController> {
     );
   }
 
-  Container cardAkun({
+  GestureDetector cardAkun({
     required String title,
     required IconData icons,
     required ColorScheme color,
     required TextStyle titleMedium,
+    required void Function()? onTap,
   }) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-      decoration: BoxDecoration(color: color.background),
-      child: Row(
-        children: [
-          Icon(icons),
-          const Gap(12),
-          Text(
-            title,
-            style: titleMedium,
-          ),
-          const Spacer(),
-          Icon(
-            Icons.arrow_forward_ios_outlined,
-            color: color.primary,
-          ),
-        ],
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+        decoration: BoxDecoration(color: color.background),
+        child: Row(
+          children: [
+            Icon(icons),
+            const Gap(12),
+            Text(
+              title,
+              style: titleMedium,
+            ),
+            const Spacer(),
+            Icon(
+              Icons.arrow_forward_ios_outlined,
+              color: color.primary,
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -103,7 +116,9 @@ class AkunView extends GetView<AkunController> {
         children: [
           Card(
             color: color.primary,
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30),),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(30),
+            ),
             child: imageUrl != null
                 ? Image.network(
                     imageUrl,
@@ -126,19 +141,19 @@ class AkunView extends GetView<AkunController> {
                   ' $name',
                   style: titleMediumBold,
                 ),
-                const Gap(4),
-                GestureDetector(
-                  onTap: onTap,
-                  child: Row(
-                    children: [
-                      const Icon(Icons.edit_outlined),
-                      Text(
-                        'Ubah Profil',
-                        style: titleMedium,
-                      ),
-                    ],
-                  ),
-                ),
+                // const Gap(4),
+                // GestureDetector(
+                //   onTap: onTap,
+                //   child: Row(
+                //     children: [
+                //       const Icon(Icons.edit_outlined),
+                //       Text(
+                //         'Ubah Profil',
+                //         style: titleMedium,
+                //       ),
+                //     ],
+                //   ),
+                // ),
               ],
             ),
           ),

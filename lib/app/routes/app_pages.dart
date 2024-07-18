@@ -12,6 +12,10 @@ import '../modules/lokasi/bindings/lokasi_binding.dart';
 import '../modules/lokasi/views/lokasi_view.dart';
 import '../modules/register/bindings/register_binding.dart';
 import '../modules/register/views/register_view.dart';
+import '../modules/update_address/bindings/update_address_binding.dart';
+import '../modules/update_address/views/update_address_view.dart';
+import '../modules/update_profile/bindings/update_profile_binding.dart';
+import '../modules/update_profile/views/update_profile_view.dart';
 import '../modules/welcome/bindings/welcome_binding.dart';
 import '../modules/welcome/views/welcome_view.dart';
 
@@ -58,6 +62,16 @@ class AppPages {
       name: _Paths.CHECKOUT,
       page: () => const CheckoutView(),
       binding: CheckoutBinding(),
+    ),
+    GetPage(
+      name: _Paths.UPDATE_PROFILE,
+      page: () => const UpdateProfileView(),
+      binding: UpdateProfileBinding(),
+    ),
+    GetPage(
+      name: _Paths.UPDATE_ADDRESS,
+      page: () => const UpdateAddressView(),
+      binding: UpdateAddressBinding(),
     ),
   ];
 }

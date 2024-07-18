@@ -19,17 +19,42 @@ class AkunController extends GetxController with StateMixin<DataCustomer> {
 
   void toDaftar() => Get.toNamed(Routes.REGISTER);
 
+  void toUpdateProfil(DataCustomer data) => Get.toNamed(
+        Routes.UPDATE_PROFILE,
+        arguments: data,
+      );
+
+  void toUpdateAlamat() => Get.toNamed(Routes.UPDATE_ADDRESS);
+
   @override
   void onInit() async {
     await prefService.prefInit();
     if (prefService.getIdCustomer != null) {
       setLoginValue(true);
       findAllProduct(prefService.getIdCustomer.toString());
-    }else{
+    } else {
       setLoginValue(false);
       change(<DataCustomer>{} as DataCustomer?, status: RxStatus.empty());
     }
     super.onInit();
+  }
+
+  Future loOut() async {
+    Get.defaultDialog(
+      title: "Peringatan",
+      middleText: "Apakah anda yakin ingin keluar",
+      onCancel: Get.back,
+      onConfirm: () async {
+        await prefService.clearAllData();
+        Get.offAllNamed(Routes.DASHBOARD);
+        Get.snackbar(
+          "Info",
+          "Anda Berhasil Keluar",
+          snackPosition: SnackPosition.TOP,
+          borderRadius: 10,
+        );
+      },
+    );
   }
 
   Future findAllProduct(String idCustamer) async {

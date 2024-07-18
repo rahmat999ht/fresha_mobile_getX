@@ -4,6 +4,7 @@ import 'package:fresha_mobile/app/modules/dashboard_item/kategori/controllers/ka
 import 'package:fresha_mobile/app/modules/dashboard_item/pesanan/controllers/pesanan_controller.dart';
 import 'package:fresha_mobile/core.dart';
 import 'package:fresha_mobile/provider/customer_provider.dart';
+import 'package:fresha_mobile/provider/hastag_ml_provider.dart';
 
 import '../../dashboard_item/products/controllers/products_controller.dart';
 import '../controllers/dashboard_controller.dart';
@@ -21,11 +22,16 @@ class DashboardBinding extends Bindings {
       () => OrderProvider(),
     );
     Get.lazyPut(
-          () => CustomerProvider(),
+      () => CustomerProvider(),
+    );
+    Get.lazyPut(
+      () => HastagMlProvider(),
     );
     Get.lazyPut<ProductsController>(
       () => ProductsController(
         productProvider: Get.find(),
+        hastagMlProvider: Get.find(),
+        prefService: Get.find(),
       ),
     );
     Get.lazyPut<DashboardController>(

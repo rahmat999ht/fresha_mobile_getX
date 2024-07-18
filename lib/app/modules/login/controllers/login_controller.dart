@@ -65,7 +65,7 @@ class LoginController extends GetxController {
         });
         cFormEmail.clear();
         loadingState();
-        Get.offAndToNamed(Routes.DASHBOARD);
+        Get.offAllNamed(Routes.DASHBOARD);
       }
     }
   }

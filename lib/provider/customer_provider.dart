@@ -26,6 +26,27 @@ class CustomerProvider extends GetConnect {
     }
   }
 
+  Future<ModelResponsePatchCustamer> patchCustomer(
+      ModelRequestPatchCustamer input) async {
+    try {
+      final request = modelRequestPatchCustamerToJson(input);
+      const String urlCustomer = KeysEnpoint.custamer;
+      log(urlCustomer, name: "data url Product");
+      final response = await patch(urlCustomer, request);
+      if (response.statusCode == 200) {
+        log(response.bodyString!, name: 'data response');
+        return modelResponsePatchCustamerFromJson(response.bodyString!);
+      } else {
+        log(response.toString(), name: 'data error');
+        throw Exception(
+            'Failed to patch custamer. Status Code: ${response.statusCode}');
+      }
+    } catch (error) {
+      log(error.toString(), name: "data error");
+      rethrow; // Melempar kembali error untuk ditangani oleh pemanggil
+    }
+  }
+
   @override
   void onInit() async {
     _prefService.prefInit();
