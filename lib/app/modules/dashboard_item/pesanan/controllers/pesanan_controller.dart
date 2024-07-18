@@ -28,6 +28,14 @@ class PesananController extends GetxController
       orderProvider.fetchOrderByIdCustamer(idCustamer).then((result) {
         if (result.code == 200) {
           // log(result.toString(), name: 'data model');
+          final dataDone =
+              result.data.where((element) => element.status == "done").toList();
+          log(dataDone.length.toString(), name: 'dataDone');
+          final dataProcessed = result.data
+              .where((element) => element.status == "processed")
+              .toList();
+          itemDone.value = dataDone.length;
+          itemProcessed.value = dataProcessed.length;
           change(result.data, status: RxStatus.success());
         } else {
           log('kosong', name: 'data kosong');

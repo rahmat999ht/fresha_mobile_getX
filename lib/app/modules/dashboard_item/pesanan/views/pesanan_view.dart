@@ -28,8 +28,6 @@ class PesananView extends GetView<PesananController> {
             final dataProcessed = state
                 .where((element) => element.status == "processed")
                 .toList();
-            controller.itemDone.value = dataDone.length;
-            controller.itemProcessed.value = dataProcessed.length;
             log(dataProcessed.length.toString(), name: 'dataProcessed');
             return TabBarView(
               children: <Widget>[
@@ -95,17 +93,17 @@ class PesananView extends GetView<PesananController> {
   TabBar tapBarPesanan({required TextTheme textStyle}) {
     return TabBar(
       tabs: <Widget>[
-        Obx(
-          () => Tab(
-            child: Text(
+        Tab(
+          child: Obx(
+            () => Text(
               '${KeysPesanan.diproses} (${controller.itemProcessed.value})',
               style: textStyle.bodyLarge,
             ),
           ),
         ),
-        Obx(
-          () => Tab(
-            child: Text(
+        Tab(
+          child: Obx(
+            () => Text(
               '${KeysPesanan.selesai} (${controller.itemDone.value})',
               style: textStyle.bodyLarge,
             ),
