@@ -13,27 +13,25 @@ class PesananView extends GetView<PesananController> {
     return DefaultTabController(
       initialIndex: 1,
       length: 2,
-      child: controller.obx(
-        (state) {
-          final dataDone =
-              state!.where((element) => element.status == "done").toList();
-          log(dataDone.length.toString(), name: 'dataDone');
-          final dataProcessed =
-              state.where((element) => element.status == "processed").toList();
-          log(dataProcessed.length.toString(), name: 'dataProcessed');
-          return Scaffold(
-            backgroundColor:
-                context.colorScheme.outlineVariant.withOpacity(0.3),
-            appBar: AppBar(
-              title: Text(KeysNavBar.pesanan, style: textStyle.titleLarge),
-              backgroundColor: color.background,
-              bottom: tapBarPesanan(
-                textStyle: textStyle,
-                itemDone: dataDone.length,
-                itemProcessed: dataProcessed.length,
-              ),
-            ),
-            body: TabBarView(
+      child: Scaffold(
+        backgroundColor: context.colorScheme.outlineVariant.withOpacity(0.3),
+        appBar: AppBar(
+          title: Text(KeysNavBar.pesanan, style: textStyle.titleLarge),
+          backgroundColor: color.background,
+          bottom: tapBarPesanan(textStyle: textStyle),
+        ),
+        body: controller.obx(
+          (state) {
+            final dataDone =
+                state!.where((element) => element.status == "done").toList();
+            log(dataDone.length.toString(), name: 'dataDone');
+            final dataProcessed = state
+                .where((element) => element.status == "processed")
+                .toList();
+            controller.itemDone.value = dataDone.length;
+            controller.itemProcessed.value = dataProcessed.length;
+            log(dataProcessed.length.toString(), name: 'dataProcessed');
+            return TabBarView(
               children: <Widget>[
                 bodyDiProses(
                   state: dataProcessed,
@@ -44,12 +42,12 @@ class PesananView extends GetView<PesananController> {
                   context: context,
                 ),
               ],
-            ),
-          );
-        },
-        onLoading: const LoadingState(),
-        onError: (error) => ErrorState(error: error.toString()),
-        onEmpty: keranjangKosong(context: context),
+            );
+          },
+          onLoading: const LoadingState(),
+          onError: (error) => ErrorState(error: error.toString()),
+          onEmpty: keranjangKosong(context: context),
+        ),
       ),
     );
   }
@@ -94,23 +92,23 @@ class PesananView extends GetView<PesananController> {
     }
   }
 
-  TabBar tapBarPesanan({
-    required TextTheme textStyle,
-    required int itemDone,
-    required int itemProcessed,
-  }) {
+  TabBar tapBarPesanan({required TextTheme textStyle}) {
     return TabBar(
       tabs: <Widget>[
-        Tab(
-          child: Text(
-            '${KeysPesanan.diproses} ($itemProcessed)',
-            style: textStyle.bodyLarge,
+        Obx(
+          () => Tab(
+            child: Text(
+              '${KeysPesanan.diproses} (${controller.itemProcessed.value})',
+              style: textStyle.bodyLarge,
+            ),
           ),
         ),
-        Tab(
-          child: Text(
-            '${KeysPesanan.selesai} ($itemDone)',
-            style: textStyle.bodyLarge,
+        Obx(
+          () => Tab(
+            child: Text(
+              '${KeysPesanan.selesai} (${controller.itemDone.value})',
+              style: textStyle.bodyLarge,
+            ),
           ),
         ),
       ],

@@ -11,6 +11,9 @@ class PesananController extends GetxController
     required this.prefService,
   });
 
+  final itemDone = 0.obs;
+  final itemProcessed = 0.obs;
+
   @override
   void onInit() {
     findAllProduct(prefService.getIdCustomer.toString());
@@ -34,4 +37,10 @@ class PesananController extends GetxController
       });
     }
   }
+}
+class ModelDataRiwayatPesanan{
+  final String title;
+  final List<DataOrderByCustamer> value;
+
+  ModelDataRiwayatPesanan({required this.title, required this.value});
 }
