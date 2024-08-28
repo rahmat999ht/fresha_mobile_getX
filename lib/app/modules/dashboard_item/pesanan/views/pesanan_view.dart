@@ -167,7 +167,7 @@ class PesananView extends GetView<PesananController> {
         // gradient: RadialGradient(
         //   center: Alignment.centerLeft,
         //   colors: [
-        //     context.colorScheme.primary,
+        //     context.colorScheme.background,
         //     context.colorScheme.background,
         //   ],
         // ),
