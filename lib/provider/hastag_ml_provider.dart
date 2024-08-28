@@ -33,7 +33,7 @@ class HastagMlProvider extends GetConnect {
       String idCustamer) async {
     try {
       final urlHastagMlWhereIdCus =
-          '${KeysEnpoint.hastagMl}?${KeysEnpoint.idCus}=$idCustamer';
+          '${KeysEnpoint.hastagMl}?idCus=$idCustamer';
       log(urlHastagMlWhereIdCus, name: 'urlHastagMlWhereIdCus');
       final response = await get(urlHastagMlWhereIdCus);
 

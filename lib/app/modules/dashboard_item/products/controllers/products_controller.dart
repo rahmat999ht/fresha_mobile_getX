@@ -30,7 +30,6 @@ class ProductsController extends GetxController
   final Map<String, int> hastagCounts = {};
   final isLogin = false.obs;
 
-
   void onChangeSearch({required String value, required RxBool isSearch}) {
     final onSearch = value.isEmpty
         ? listProduct
@@ -44,18 +43,16 @@ class ProductsController extends GetxController
 
   @override
   void onInit() async {
-    findRekomenProduct();
-    findAllhHastagMl();
-     await prefService.prefInit();
+    await prefService.prefInit();
     if (prefService.getIdCustomer != null) {
       log(prefService.getIdCustomer.toString(), name: "idCus Login");
       isLogin.value = true;
+      await findAllhHastagMl();
     }
     super.onInit();
   }
 
   Future findAllhHastagMl() async {
-    prefService.prefInit();
     if (prefService.getIdCustomer != null) {
       hastagMlProvider
           .getHastagMlWhereIdCustomer(prefService.getIdCustomer.toString())
@@ -76,6 +73,7 @@ class ProductsController extends GetxController
                     value: entry.value,
                   ))
               .toList();
+          findRekomenProduct(listHastagMl);
           log(listHastagMl.toString(), name: 'data listHastagMl');
         } else {
           log('data listHastagMl kosong', name: 'kosong');
@@ -88,27 +86,36 @@ class ProductsController extends GetxController
     }
   }
 
-  Future findRekomenProduct() async {
-    log(listHastagMl.toString(), name: 'listHastagMl');
-    // if (listHastagMl.length >= 2) {
-      productProvider
-          .fetchProductsWhereHastag(
-              hastags: listHastagMl.toString())
-          .then((result) {
-        if (result.code == 200) {
-          listProduct = result.data;
-          log(listProduct.length.toString(), name: 'data model');
-          change(listProduct, status: RxStatus.success());
-        } else {
-          log('kosong', name: 'data kosong');
-          change([], status: RxStatus.empty());
-        }
-      }, onError: (err) {
-        change(null, status: RxStatus.error(err.toString()));
-      });
-    // } else {
-    //   change([], status: RxStatus.empty());
-    // }
+  Future findRekomenProduct(List<ModelValueHastagMl> listHastag) async {
+    // Jika daftar hastag memiliki lebih dari dua item, ambil hanya dua yang paling banyak
+    if (listHastag.length > 2) {
+      // Sortir list berdasarkan value yang paling tinggi dan ambil dua teratas
+      listHastag.sort((a, b) => b.value.compareTo(a.value));
+      listHastag = listHastag.take(2).toList();
+    }
+
+    // Gabungkan elemen-elemen terpilih menjadi string
+    String formattedHastags = listHastag
+        .map((e) => e.title)
+        .toList()
+        .join(', '); // Menggabungkan elemen tanpa []
+
+    log(formattedHastags, name: 'listHastagMl');
+
+    // Panggil produk yang sesuai dengan hastags yang telah diformat
+    productProvider.fetchProductsWhereHastag(hastags: formattedHastags).then(
+        (result) {
+      if (result.code == 200) {
+        listProduct = result.data;
+        log(listProduct.length.toString(), name: 'data model');
+        change(listProduct, status: RxStatus.success());
+      } else {
+        log('kosong', name: 'data kosong');
+        change([], status: RxStatus.empty());
+      }
+    }, onError: (err) {
+      change(null, status: RxStatus.error(err.toString()));
+    });
   }
 }
 
