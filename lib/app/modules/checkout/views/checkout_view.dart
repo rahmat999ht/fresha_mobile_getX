@@ -216,7 +216,7 @@ class CheckoutView extends GetView<CheckoutController> {
         gradient: RadialGradient(
           center: Alignment.centerLeft,
           colors: [
-            context.colorScheme.primary,
+            context.colorScheme.background,
             context.colorScheme.background,
           ],
         ),
@@ -284,7 +284,7 @@ class CheckoutView extends GetView<CheckoutController> {
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(5),
                   ),
-                  color: context.colorScheme.primary,
+                  color: context.colorScheme.background,
                   child: const SizedBox(
                     height: 25,
                     width: 30,
