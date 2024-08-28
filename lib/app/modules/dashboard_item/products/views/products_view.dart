@@ -1,7 +1,6 @@
 import '../../../../../core.dart';
 import '../controllers/products_controller.dart';
 
-
 class ProductsView extends GetView<ProductsController> {
   const ProductsView({super.key});
 
@@ -47,7 +46,7 @@ class ProductsView extends GetView<ProductsController> {
           ),
           onLoading: const LoadingState(),
           onError: (error) => ErrorState(error: error.toString()),
-          onEmpty: belumLogin(context: context),
+          onEmpty: productKosong(context: context),
         ),
       ],
     );
@@ -102,9 +101,11 @@ class ProductsView extends GetView<ProductsController> {
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
           children: [
-            Card(
-              margin: const EdgeInsets.all(0),
+            SizedBox(
+              height: context.height * 0.19,
+              width: context.height * 0.19,
               child: Image.network(
                 state.image,
                 height: context.height * 0.19,
@@ -136,35 +137,62 @@ class ProductsView extends GetView<ProductsController> {
     );
   }
 
-  Center belumLogin({
+  Center productKosong({
     required BuildContext context,
   }) {
     return Center(
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            const Icon(
-              Icons.person,
-              size: 200,
-            ),
-            const Gap(12),
-            Text(
-              "Yah, Kamu belum punya akun",
-              style: context.titleLargeBold,
-            ),
-            Text(
-              "Yuk Login sekarang!",
-              style: context.textTheme.titleMedium,
-            ),
-            // const Gap(12),
-            // ElevatedButton(
-            //   onPressed: controller.toDaftar,
-            //   child: const Text('Daftar'),
-            // ),
-            const Gap(12),
-          ],
+      child: Obx(
+        () => Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: controller.isLogin.isTrue
+              ? Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    const Icon(
+                      Icons.shopping_cart_outlined,
+                      size: 200,
+                    ),
+                    const Gap(12),
+                    Text(
+                      "Ayo lakukan orderan pertamamu",
+                      style: context.titleLargeBold,
+                    ),
+                    Text(
+                      "Yuk order sekarang!",
+                      style: context.textTheme.titleMedium,
+                    ),
+                    // const Gap(12),
+                    // ElevatedButton(
+                    //   onPressed: controller.toDaftar,
+                    //   child: const Text('Daftar'),
+                    // ),
+                    const Gap(12),
+                  ],
+                )
+              : Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    const Icon(
+                      Icons.person,
+                      size: 200,
+                    ),
+                    const Gap(12),
+                    Text(
+                      "Yah, Kamu belum punya akun",
+                      style: context.titleLargeBold,
+                    ),
+                    Text(
+                      "Yuk Login sekarang!",
+                      style: context.textTheme.titleMedium,
+                    ),
+                    // const Gap(12),
+                    // ElevatedButton(
+                    //   onPressed: controller.toDaftar,
+                    //   child: const Text('Daftar'),
+                    // ),
+                    const Gap(12),
+                  ],
+                ),
         ),
       ),
     );

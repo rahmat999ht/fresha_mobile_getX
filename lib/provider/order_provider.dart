@@ -39,7 +39,7 @@ class OrderProvider extends GetConnect {
         dataInput,
         // headers: {'Authorization': "Bearer $token"},
       );
-
+      log(response.statusCode.toString(), name: "statusCode post order");
       if (response.status.hasError) {
         throw Exception(
             'Failed to get order. Status Code: ${response.statusCode}');

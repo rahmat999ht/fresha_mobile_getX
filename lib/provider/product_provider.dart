@@ -61,12 +61,11 @@ class ProductProvider extends GetConnect {
   }
 
   Future<ModelResponseProductWhereHastagMl> fetchProductsWhereHastag({
-    required String hastag1,
-    required String hastag2,
+    required String hastags,
   }) async {
     try {
-      String urlProduct = "${KeysEnpoint.product}?hastag1=$hastag1&hastag2=$hastag2";
-      log(urlProduct, name: "data url Product");
+      String urlProduct = "${KeysEnpoint.product}?hastags=$hastags";
+      log(urlProduct, name: "data url rekomen Product");
       final response = await get(urlProduct);
       if (response.status.hasError) {
         log(response.toString(), name: 'data error');

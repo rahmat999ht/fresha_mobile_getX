@@ -28,6 +28,8 @@ class ProductsController extends GetxController
     // ),
   ];
   final Map<String, int> hastagCounts = {};
+  final isLogin = false.obs;
+
 
   void onChangeSearch({required String value, required RxBool isSearch}) {
     final onSearch = value.isEmpty
@@ -41,9 +43,14 @@ class ProductsController extends GetxController
   }
 
   @override
-  void onInit() {
-    findAllProduct();
+  void onInit() async {
+    findRekomenProduct();
     findAllhHastagMl();
+     await prefService.prefInit();
+    if (prefService.getIdCustomer != null) {
+      log(prefService.getIdCustomer.toString(), name: "idCus Login");
+      isLogin.value = true;
+    }
     super.onInit();
   }
 
@@ -77,15 +84,16 @@ class ProductsController extends GetxController
         log('error listHastagMl: $err', name: 'error');
       });
     } else {
-      log('data getIdCustbomer kosong', name: 'getIdCustomer');
+      log('data listHastagMl kosong', name: 'getIdCustomer');
     }
   }
 
-  Future findAllProduct() async {
-    if (listHastagMl.length >= 2) {
+  Future findRekomenProduct() async {
+    log(listHastagMl.toString(), name: 'listHastagMl');
+    // if (listHastagMl.length >= 2) {
       productProvider
           .fetchProductsWhereHastag(
-              hastag1: listHastagMl[0].title, hastag2: listHastagMl[0].title)
+              hastags: listHastagMl.toString())
           .then((result) {
         if (result.code == 200) {
           listProduct = result.data;
@@ -98,9 +106,9 @@ class ProductsController extends GetxController
       }, onError: (err) {
         change(null, status: RxStatus.error(err.toString()));
       });
-    } else {
-      change([], status: RxStatus.empty());
-    }
+    // } else {
+    //   change([], status: RxStatus.empty());
+    // }
   }
 }
 

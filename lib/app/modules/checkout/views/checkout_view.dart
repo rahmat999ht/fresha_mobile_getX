@@ -3,7 +3,7 @@ import 'package:fresha_mobile/core.dart';
 import '../controllers/checkout_controller.dart';
 
 class CheckoutView extends GetView<CheckoutController> {
-  const CheckoutView({Key? key}) : super(key: key);
+  const CheckoutView({super.key});
 
   @override
   Widget build(BuildContext context) {

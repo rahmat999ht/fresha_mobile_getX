@@ -28,24 +28,9 @@ class CheckoutController extends GetxController {
   final dataListProduct = <ProductPostOrder>[];
   final dataListHastagProduct = <String>[];
   final isLoading = false.obs;
-  final isPostHastag = false.obs;
-  final isPatchProduct = false.obs;
-  final isPostOrder = false.obs;
 
   void initLoading() {
     isLoading.value = !isLoading.value;
-  }
-
-  void initPostHastag() {
-    isPostHastag.value = !isPostHastag.value;
-  }
-
-  void initPatchProduct() {
-    isPatchProduct.value = !isPatchProduct.value;
-  }
-
-  void initPostOrder() {
-    isPostOrder.value = !isPostOrder.value;
   }
 
   Future addOrder() async {
@@ -73,63 +58,9 @@ class CheckoutController extends GetxController {
           listProduct: dataListProduct,
         );
         initLoading();
-        //patch product stock
-        dataListProduct.map((e) {
-          final dataUpdateProduct =
-              ModelRequestPatchProduct(id: e.productId, stock: e.quantity);
-          productProvider.patchProducts(dataUpdateProduct).then(
-            (result) {
-              if (result.code == 200) {
-                initPatchProduct();
-              }
-            },
-            onError: (err) {
-              Get.snackbar(
-                "Info",
-                "Terjadi kesalahan saat update product : $err",
-                snackPosition: SnackPosition.TOP,
-                borderRadius: 10,
-              );
-            },
-          );
-        });
-
-        //post Hastag
-        dataListHastagProduct.map((e) async {
-          final dataHastag = ModelRequestPostHastagMl(
-            name: e,
-            custamerId: idCustamer!,
-          );
-          hastagMlProvider.postHastagMl(dataHastag).then(
-            (result) {
-              if (result.code == 200) {
-                initPostHastag();
-              }
-            },
-            onError: (err) {
-              Get.snackbar(
-                "Info",
-                "Terjadi kesalahan saat post hastag : $err",
-                snackPosition: SnackPosition.TOP,
-                borderRadius: 10,
-              );
-            },
-          );
-        });
         //post Order
-        orderProvider.postOrder(dataOrder).then((result) {
-          if (result.code == 200) {
-            initPostOrder();
-          }
-        }, onError: (err) {
-          Get.snackbar(
-            "Info",
-            "Terjadi kesalahan saat post order : $err",
-            snackPosition: SnackPosition.TOP,
-            borderRadius: 10,
-          );
-        });
-        if (isPatchProduct.isTrue && isPostHastag.isTrue && isPostOrder.isTrue) {
+        final postOrder = await orderProvider.postOrder(dataOrder);
+        if (postOrder.code == 200) {
           Get.snackbar(
             "Info",
             "Anda berhasil malakukan pesanan",
