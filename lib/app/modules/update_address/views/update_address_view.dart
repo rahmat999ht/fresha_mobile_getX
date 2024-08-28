@@ -5,7 +5,7 @@ import 'package:get/get.dart';
 import '../controllers/update_address_controller.dart';
 
 class UpdateAddressView extends GetView<UpdateAddressController> {
-  const UpdateAddressView({Key? key}) : super(key: key);
+  const UpdateAddressView({super.key});
   @override
   Widget build(BuildContext context) {
     return Scaffold(

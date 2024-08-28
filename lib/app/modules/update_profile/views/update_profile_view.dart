@@ -3,7 +3,7 @@ import 'package:fresha_mobile/core.dart';
 import '../controllers/update_profile_controller.dart';
 
 class UpdateProfileView extends GetView<UpdateProfileController> {
-  const UpdateProfileView({Key? key}) : super(key: key);
+  const UpdateProfileView({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -170,11 +170,11 @@ class UpdateProfileView extends GetView<UpdateProfileController> {
         ),
         if (info != null)
           Visibility(
-            visible: info != null,
+            visible: true,
             child: Padding(
               padding: const EdgeInsets.only(top: 4),
               child: Text(
-                info ?? "",
+                info ,
                 style: context.labelLargeBold.copyWith(
                   color: context.colorScheme.error,
                   fontWeight: FontWeight.normal,

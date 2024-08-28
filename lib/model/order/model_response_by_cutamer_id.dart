@@ -1,10 +1,5 @@
-// To parse this JSON data, do
-//
-//     final ModelresponseOrderByCustamer = ModelresponseOrderByCustamerFromJson(jsonString);
-
 import 'dart:convert';
 
-import '../../core.dart';
 import 'list_product_custamer.dart';
 
 ModelResponseOrderByCustamer modelResponseOrderByCustamerFromJson(String str) =>

@@ -1,8 +1,5 @@
 import 'package:fresha_mobile/core.dart';
-import 'package:fresha_mobile/core.dart';
 import 'package:fresha_mobile/provider/hastag_ml_provider.dart';
-import 'package:fresha_mobile/provider/hastag_ml_provider.dart';
-import 'package:get/get.dart';
 
 import '../controllers/checkout_controller.dart';
 

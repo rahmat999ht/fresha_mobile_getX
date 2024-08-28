@@ -1,7 +1,6 @@
 import 'dart:developer';
 
 import 'package:fresha_mobile/model/order/model_request_post_order.dart';
-import 'package:fresha_mobile/model/product/model_request_patch_product.dart';
 import 'package:fresha_mobile/provider/hastag_ml_provider.dart';
 
 import '../../../../core.dart';
