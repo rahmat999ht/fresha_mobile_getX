@@ -48,6 +48,8 @@ class ProductsController extends GetxController
       log(prefService.getIdCustomer.toString(), name: "idCus Login");
       isLogin.value = true;
       await findAllhHastagMl();
+    } else {
+      change([], status: RxStatus.empty());
     }
     super.onInit();
   }
